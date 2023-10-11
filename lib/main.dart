@@ -2,65 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:senorvis/dummysensor.dart';
+
 const isonpi = false;
 final manager = isonpi ? DummySensor() : DummySensor();
-
-// import 'package:flutter/cupertino.dart';
-
-// /// Flutter code sample for [CupertinoPageScaffold].
-
-// void main() => runApp(const PageScaffoldApp());
-
-// class PageScaffoldApp extends StatelessWidget {
-//   const PageScaffoldApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const CupertinoApp(
-//       theme: CupertinoThemeData(brightness: Brightness.light),
-//       home: PageScaffoldExample(),
-//     );
-//   }
-// }
-
-// class PageScaffoldExample extends StatefulWidget {
-//   const PageScaffoldExample({super.key});
-
-//   @override
-//   State<PageScaffoldExample> createState() => _PageScaffoldExampleState();
-// }
-
-// class _PageScaffoldExampleState extends State<PageScaffoldExample> {
-//   int _count = 0;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return CupertinoPageScaffold(
-//       // Uncomment to change the background color
-//       // backgroundColor: CupertinoColors.systemPink,
-//       navigationBar: const CupertinoNavigationBar(
-//         middle: Text('INL Irrigation Demo - BYUI'),
-//       ),
-//       child: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Center(
-//               child: Text('You have pressed the button $_count times.'),
-//             ),
-//             const SizedBox(height: 20.0),
-//             Center(
-//               child: CupertinoButton.filled(
-//                 onPressed: () => setState(() => _count++),
-//                 child: const Icon(CupertinoIcons.add),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 void main() {
   runApp(const MyApp());
@@ -76,10 +20,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 0, 0)),
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 0, 2, 105)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'INL Irrigation Demo - BYU-Idaho'),
+      home: const MyHomePage(title: 'Irrigation Modernization Display'),
     );
   }
 }
@@ -93,13 +37,44 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class DataPage extends StatefulWidget {
+  const DataPage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<DataPage> createState() => _DataPageState();
+}
+
+class MetricsPage extends StatefulWidget {
+  const MetricsPage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MetricsPage> createState() => _MetricsPageState();
+}
+
+class ResearchPage extends StatefulWidget {
+  const ResearchPage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<ResearchPage> createState() => _ResearchPageState();
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   double waterlevel = 0;
+  double flowrate = 0;
+  double humidity = 0;
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(milliseconds: 1000), (timer) {
       refreshwater();
+      refreshflow();
+      refreshhumidity();
     });
   }
 
@@ -110,12 +85,118 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      waterlevel = manager.getWaterLevel();
+      waterlevel = manager.getWaterLevel().roundToDouble();
     });
   }
 
+  void refreshflow() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      flowrate = manager.getFlowRate().roundToDouble();
+    });
+  }
+
+  void refreshhumidity() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      humidity = manager.getHumidity().roundToDouble();
+    });
+  }
+
+  void refreshwaterpress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      waterlevel = waterlevel + 1;
+    });
+  }
+
+  void refreshflowpress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      flowrate = flowrate + 1;
+    });
+  }
+
+  void refreshhumiditypress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      humidity = humidity + 1;
+    });
+  }
+
+  Widget header = Container(
+    alignment: Alignment.topCenter,
+    // padding: EdgeInsets.all(10),
+
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'images/INL.png',
+          width: 180 * 2,
+          height: 100 * 2,
+          fit: BoxFit.cover,
+        ),
+        Image.asset(
+          'images/90.png',
+          width: 150 * 2,
+          height: 80 * 2,
+          fit: BoxFit.cover,
+        ),
+      ],
+    ),
+  );
+
+  // Widget datalist = Container(
+  //   alignment: Alignment.bottomCenter,
+  //   child: Row(
+  //     children: [
+  //       Expanded(
+  //           child: Column(
+  //         children: [
+  //           const Text(
+  //             'Water Level(Dummy Data)%:',
+  //           ),
+  //           Text(
+  //             '$waterlevel',
+  //             style: Theme.of(context).textTheme.headlineMedium,
+  //           ),
+  //           ElevatedButton(
+  //             style: style,
+  //             onPressed: refreshwaterpress,
+  //             child: const Text('Add Water'),
+  //           ),
+  //         ],
+  //       ))
+  //     ],
+  //   ),
+  // );
+
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -150,22 +231,300 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
+
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            Spacer(),
+            header,
+            // const Text(
+            //   'Water Level%:',
+            // ),
+            // Text(
+            //   '$waterlevel',
+            //   style: Theme.of(context).textTheme.headlineMedium,
+            // ),
+            Spacer(),
             Text(
-              '$waterlevel',
-              style: Theme.of(context).textTheme.headlineMedium,
+                'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
+            Spacer(),
+            Container(
+              margin: EdgeInsets.all(10),
+              child: Row(children: [
+                Spacer(),
+                ElevatedButton(
+                  style: style,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const DataPage(title: 'Data'),
+                      ),
+                    );
+                  },
+                  child: const Text('Data'),
+                ),
+                Spacer(),
+                ElevatedButton(
+                  style: style,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const MetricsPage(title: 'Metrics'),
+                      ),
+                    );
+                  },
+                  child: const Text('Metrics'),
+                ),
+                Spacer(),
+                ElevatedButton(
+                  style: style,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const ResearchPage(title: 'Research'),
+                      ),
+                    );
+                  },
+                  child: const Text('Research'),
+                ),
+                Spacer(),
+              ]),
             ),
+            Spacer(),
+
+            // const Text(
+            //   'Flow Rate:',
+            // ),
+            // Text(
+            //   '$flowrate',
+            //   style: Theme.of(context).textTheme.headlineMedium,
+            // ),
+
+            // const Text(
+            //   'Humidity%:',
+            // ),
+            // Text(
+            //   '$humidity',
+            //   style: Theme.of(context).textTheme.headlineMedium,
+            // ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: refreshwater,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: refreshwaterpress,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
+
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class _DataPageState extends State<DataPage> {
+  @override
+  Widget build(BuildContext context) {
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          Spacer(),
+          Text('This is the data page. Put the data collected here'),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(children: [
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyHomePage(
+                          title: 'Irrigation Modernization Display'),
+                    ),
+                  );
+                },
+                child: const Text('Home'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MetricsPage(title: 'Metrics'),
+                    ),
+                  );
+                },
+                child: const Text('Metrics'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ResearchPage(title: 'Research'),
+                    ),
+                  );
+                },
+                child: const Text('Research'),
+              ),
+              Spacer(),
+            ]),
+          ),
+          Spacer(),
+        ],
+      )),
+    );
+  }
+}
+
+class _MetricsPageState extends State<MetricsPage> {
+  @override
+  Widget build(BuildContext context) {
+    AppBar(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: Text(widget.title),
+    );
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          Spacer(),
+          Text('This is the metrics page. Put the real farm metrics here'),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(children: [
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyHomePage(
+                          title: 'Irrigation Modernization Display'),
+                    ),
+                  );
+                },
+                child: const Text('Home'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const DataPage(title: 'Data'),
+                    ),
+                  );
+                },
+                child: const Text('Data'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ResearchPage(title: 'Research'),
+                    ),
+                  );
+                },
+                child: const Text('Research'),
+              ),
+              Spacer(),
+            ]),
+          ),
+          Spacer(),
+        ],
+      )),
+    );
+  }
+}
+
+class _ResearchPageState extends State<ResearchPage> {
+  @override
+  Widget build(BuildContext context) {
+    AppBar(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: Text(widget.title),
+    );
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          Spacer(),
+          Text('This is the research page. Put the research information here'),
+          Spacer(),
+          Container(
+            margin: EdgeInsets.all(10),
+            child: Row(children: [
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyHomePage(
+                          title: 'Irrigation Modernization Display'),
+                    ),
+                  );
+                },
+                child: const Text('Home'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const DataPage(title: 'Data'),
+                    ),
+                  );
+                },
+                child: const Text('Data'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                style: style,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MetricsPage(title: 'Metrics'),
+                    ),
+                  );
+                },
+                child: const Text('Metrics'),
+              ),
+              Spacer(),
+            ]),
+          ),
+          Spacer(),
+        ],
+      )),
     );
   }
 }
