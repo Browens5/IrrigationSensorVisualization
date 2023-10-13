@@ -324,8 +324,8 @@ class _MyHomePageState extends State<MyHomePage> {
 class _DataPageState extends State<DataPage> {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle style =
-        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -337,50 +337,50 @@ class _DataPageState extends State<DataPage> {
           Spacer(),
           Text('This is the data page. Put the data collected here'),
           Spacer(),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Row(children: [
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MyHomePage(
-                          title: 'Irrigation Modernization Display'),
-                    ),
-                  );
-                },
-                child: const Text('Home'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MetricsPage(title: 'Metrics'),
-                    ),
-                  );
-                },
-                child: const Text('Metrics'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const ResearchPage(title: 'Research'),
-                    ),
-                  );
-                },
-                child: const Text('Research'),
-              ),
-              Spacer(),
-            ]),
-          ),
+          // Container(
+          //   margin: EdgeInsets.all(10),
+          //   child: Row(children: [
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const MyHomePage(
+          //                 title: 'Irrigation Modernization Display'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Home'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const MetricsPage(title: 'Metrics'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Metrics'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) =>
+          //                 const ResearchPage(title: 'Research'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Research'),
+          //     ),
+          //     Spacer(),
+          //   ]),
+          // ),
           Spacer(),
         ],
       )),
@@ -395,8 +395,8 @@ class _MetricsPageState extends State<MetricsPage> {
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: Text(widget.title),
     );
-    final ButtonStyle style =
-        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -408,50 +408,50 @@ class _MetricsPageState extends State<MetricsPage> {
           Spacer(),
           Text('This is the metrics page. Put the real farm metrics here'),
           Spacer(),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Row(children: [
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MyHomePage(
-                          title: 'Irrigation Modernization Display'),
-                    ),
-                  );
-                },
-                child: const Text('Home'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const DataPage(title: 'Data'),
-                    ),
-                  );
-                },
-                child: const Text('Data'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const ResearchPage(title: 'Research'),
-                    ),
-                  );
-                },
-                child: const Text('Research'),
-              ),
-              Spacer(),
-            ]),
-          ),
+          // Container(
+          //   margin: EdgeInsets.all(10),
+          //   child: Row(children: [
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const MyHomePage(
+          //                 title: 'Irrigation Modernization Display'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Home'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const DataPage(title: 'Data'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Data'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) =>
+          //                 const ResearchPage(title: 'Research'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Research'),
+          //     ),
+          //     Spacer(),
+          //   ]),
+          // ),
           Spacer(),
         ],
       )),
@@ -466,8 +466,8 @@ class _ResearchPageState extends State<ResearchPage> {
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: Text(widget.title),
     );
-    final ButtonStyle style =
-        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -479,49 +479,49 @@ class _ResearchPageState extends State<ResearchPage> {
           Spacer(),
           Text('This is the research page. Put the research information here'),
           Spacer(),
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Row(children: [
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MyHomePage(
-                          title: 'Irrigation Modernization Display'),
-                    ),
-                  );
-                },
-                child: const Text('Home'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const DataPage(title: 'Data'),
-                    ),
-                  );
-                },
-                child: const Text('Data'),
-              ),
-              Spacer(),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MetricsPage(title: 'Metrics'),
-                    ),
-                  );
-                },
-                child: const Text('Metrics'),
-              ),
-              Spacer(),
-            ]),
-          ),
+          // Container(
+          //   margin: EdgeInsets.all(10),
+          //   child: Row(children: [
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const MyHomePage(
+          //                 title: 'Irrigation Modernization Display'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Home'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const DataPage(title: 'Data'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Data'),
+          //     ),
+          //     Spacer(),
+          //     ElevatedButton(
+          //       style: style,
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           MaterialPageRoute(
+          //             builder: (context) => const MetricsPage(title: 'Metrics'),
+          //           ),
+          //         );
+          //       },
+          //       child: const Text('Metrics'),
+          //     ),
+          //     Spacer(),
+          //   ]),
+          // ),
           Spacer(),
         ],
       )),
