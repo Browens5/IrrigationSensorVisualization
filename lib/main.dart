@@ -2,6 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:senorvis/dummysensor.dart';
+import 'package:senorvis/chartdata.dart';
+// import 'package:graphic/graphic.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+// import 'package:usb_serial/usb_serial.dart';
 
 const isonpi = false;
 final manager = isonpi ? DummySensor() : DummySensor();
@@ -23,6 +27,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 0, 2, 105)),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Irrigation Modernization Display'),
     );
   }
@@ -235,6 +240,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Spacer(),
             header,
+            // data1,
             // const Text(
             //   'Water Level%:',
             // ),
@@ -243,8 +249,8 @@ class _MyHomePageState extends State<MyHomePage> {
             //   style: Theme.of(context).textTheme.headlineMedium,
             // ),
             Spacer(),
-            Text(
-                'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
+            // Text(
+            //     'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
             Spacer(),
             Container(
               margin: EdgeInsets.all(10),
@@ -326,6 +332,7 @@ class _DataPageState extends State<DataPage> {
   Widget build(BuildContext context) {
     // final ButtonStyle style =
     //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -335,8 +342,213 @@ class _DataPageState extends State<DataPage> {
           child: Column(
         children: [
           Spacer(),
-          Text('This is the data page. Put the data collected here'),
+          Container(
+            child: SfCartesianChart(
+              // Initialize category axis
+              primaryXAxis: CategoryAxis(),
+              series: <ChartSeries>[
+                // Initialize line series
+                LineSeries<ChartData, double>(
+                    dataSource: [
+                      ChartData(3.83, 27),
+                      ChartData(3.93, 27),
+                      ChartData(4.03, 27),
+                      ChartData(4.13, 27),
+                      ChartData(4.23, 27),
+                      ChartData(4.33, 27),
+                      ChartData(4.43, 27),
+                      ChartData(4.53, 27),
+                      ChartData(4.63, 27),
+                      ChartData(4.73, 27),
+                      ChartData(4.83, 27),
+                      ChartData(4.93, 27),
+                      ChartData(5.03, 27),
+                      ChartData(5.13, 27),
+                      ChartData(5.24, 27),
+                      ChartData(5.34, 27),
+                      ChartData(5.44, 27),
+                      ChartData(5.54, 27),
+                      ChartData(5.64, 27),
+                      ChartData(5.74, 27),
+                      ChartData(5.84, 27),
+                      ChartData(5.94, 27),
+                      ChartData(6.04, 27),
+                      ChartData(6.14, 27),
+                      ChartData(6.24, 27),
+                      ChartData(6.34, 27),
+                      ChartData(6.44, 25),
+                      ChartData(6.54, 24),
+                      ChartData(6.64, 36),
+                      ChartData(6.75, 50),
+                      ChartData(6.85, 68),
+                      ChartData(6.95, 78),
+                      ChartData(7.05, 79),
+                      ChartData(7.15, 80),
+                      ChartData(7.25, 82),
+                      ChartData(7.35, 86),
+                      ChartData(7.45, 85),
+                      ChartData(7.55, 86),
+                      ChartData(7.65, 88),
+                      ChartData(7.75, 90),
+                      ChartData(7.85, 84),
+                      ChartData(7.95, 85),
+                      ChartData(8.05, 91),
+                      ChartData(8.15, 94),
+                      ChartData(8.26, 95),
+                      ChartData(8.36, 95),
+                      ChartData(8.56, 95),
+                      ChartData(8.66, 95),
+                      ChartData(8.76, 96),
+                      ChartData(8.86, 95),
+                      ChartData(8.96, 95),
+                      ChartData(9.06, 95),
+                      ChartData(9.16, 97),
+                      ChartData(9.26, 93),
+                      ChartData(9.36, 91),
+                      ChartData(9.46, 90),
+                      ChartData(9.56, 88),
+                      ChartData(9.66, 83),
+                      ChartData(9.77, 46),
+                      ChartData(9.87, 42),
+                      ChartData(9.97, 43),
+                      ChartData(10.07, 41),
+                      ChartData(10.17, 42),
+                      ChartData(10.27, 42),
+                      ChartData(10.37, 29),
+                      ChartData(10.47, 24),
+                      ChartData(10.57, 24),
+                      ChartData(10.67, 24),
+                      ChartData(10.77, 24),
+                      ChartData(10.87, 24),
+                      ChartData(10.97, 24),
+                      ChartData(11.07, 24),
+                      ChartData(11.17, 24),
+                      ChartData(11.28, 24),
+                      ChartData(11.38, 24),
+                      ChartData(11.48, 24),
+                      ChartData(11.58, 24),
+                      ChartData(11.68, 24),
+                      ChartData(11.78, 24),
+                      ChartData(11.88, 24),
+                      ChartData(11.98, 24),
+                      ChartData(12.08, 25),
+                      ChartData(12.18, 25),
+                      ChartData(12.28, 29),
+                      ChartData(12.38, 49),
+                      ChartData(12.48, 72),
+                      ChartData(12.58, 77),
+                      ChartData(12.69, 79),
+                      ChartData(12.79, 82),
+                      ChartData(12.89, 83),
+                      ChartData(12.99, 83),
+                      ChartData(13.09, 83),
+                      ChartData(13.19, 83),
+                      ChartData(13.29, 84),
+                      ChartData(13.89, 84),
+                      ChartData(13.99, 84),
+                      ChartData(14.10, 84),
+                      ChartData(14.20, 84),
+                      ChartData(14.30, 83),
+                      ChartData(14.40, 81),
+                      ChartData(14.50, 78),
+                      ChartData(14.60, 77),
+                      ChartData(14.70, 76),
+                      ChartData(14.80, 77),
+                      ChartData(14.90, 77),
+                      ChartData(15.00, 76),
+                      ChartData(15.10, 76),
+                      ChartData(15.20, 75),
+                      ChartData(15.30, 73),
+                      ChartData(15.40, 72),
+                      ChartData(15.51, 68),
+                      ChartData(15.61, 60),
+                      ChartData(15.71, 36),
+                      ChartData(15.81, 24),
+                      ChartData(15.91, 23),
+                      ChartData(16.01, 23),
+                      ChartData(16.11, 23),
+                      ChartData(16.21, 23),
+                      ChartData(16.31, 23),
+                      ChartData(16.41, 23),
+                      ChartData(16.51, 24),
+                      ChartData(16.61, 24),
+                      ChartData(16.71, 24),
+                      ChartData(16.81, 24),
+                      ChartData(16.92, 24),
+                      ChartData(17.02, 24),
+                      ChartData(17.12, 25),
+                      ChartData(17.22, 28),
+                      ChartData(17.32, 36),
+                      ChartData(17.42, 52),
+                      ChartData(17.52, 59),
+                      ChartData(17.62, 64),
+                      ChartData(17.72, 68),
+                      ChartData(17.82, 75),
+                      ChartData(17.92, 83),
+                      ChartData(18.02, 89),
+                      ChartData(18.12, 91),
+                      ChartData(18.22, 92),
+                      ChartData(18.33, 92),
+                      ChartData(18.43, 92),
+                      ChartData(18.53, 93),
+                      ChartData(18.63, 93),
+                      ChartData(33.63, 26),
+                      ChartData(33.74, 26),
+                      ChartData(33.84, 26),
+                      ChartData(33.94, 26),
+                      ChartData(34.04, 26),
+                      ChartData(34.14, 26),
+                      ChartData(34.24, 26),
+                      ChartData(34.34, 26),
+                      ChartData(34.44, 26),
+                      ChartData(34.54, 26),
+                      ChartData(34.64, 26),
+                      ChartData(34.74, 26),
+                      ChartData(34.84, 26),
+                      ChartData(34.94, 26),
+                      ChartData(35.04, 26),
+                      ChartData(35.15, 26),
+                      ChartData(35.25, 26),
+                      ChartData(35.35, 26),
+                      ChartData(35.45, 26),
+                      ChartData(35.55, 26),
+                      ChartData(35.65, 26),
+                      ChartData(35.75, 26),
+                      ChartData(35.85, 26),
+                      ChartData(35.95, 26),
+                      ChartData(36.05, 26),
+                      ChartData(36.15, 26),
+                      ChartData(36.25, 26),
+                      ChartData(36.35, 26),
+                      ChartData(36.45, 26),
+                      ChartData(36.56, 26),
+                      ChartData(36.66, 26),
+                      ChartData(36.76, 26),
+                      ChartData(36.86, 25),
+                      ChartData(36.96, 26),
+                      ChartData(37.06, 26),
+                      ChartData(37.16, 26),
+                      ChartData(37.26, 26),
+                      ChartData(37.36, 25),
+                      ChartData(37.46, 26),
+                      ChartData(37.56, 26),
+                      ChartData(37.66, 25),
+                      ChartData(37.76, 26),
+                      ChartData(37.86, 26),
+                      ChartData(37.97, 26),
+                      ChartData(38.07, 26),
+                      ChartData(38.17, 26),
+                    ],
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y,
+                    xAxisName: "Time (s)",
+                    yAxisName: "Humidity (%)"),
+              ],
+            ),
+          ),
           Spacer(),
+          // Text('This is the data page. Put the data collected here'),
+          // Spacer(),
           // Container(
           //   margin: EdgeInsets.all(10),
           //   child: Row(children: [
@@ -381,7 +593,7 @@ class _DataPageState extends State<DataPage> {
           //     Spacer(),
           //   ]),
           // ),
-          Spacer(),
+          // Spacer(),
         ],
       )),
     );
@@ -460,6 +672,36 @@ class _MetricsPageState extends State<MetricsPage> {
 }
 
 class _ResearchPageState extends State<ResearchPage> {
+  Widget picturesrow = Container(
+    alignment: Alignment.topCenter,
+    padding: const EdgeInsets.all(10),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'images/re1.png',
+          width: 180 * 4,
+          height: 145 * 4,
+          fit: BoxFit.cover,
+        ),
+        const Text(""),
+        Image.asset(
+          'images/re2.png',
+          width: 180 * 4,
+          height: 145 * 4,
+          fit: BoxFit.cover,
+        ),
+        const Text(""),
+        Image.asset(
+          'images/re3.png',
+          width: 180 * 4,
+          height: 145 * 4,
+          fit: BoxFit.cover,
+        ),
+      ],
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     AppBar(
@@ -473,57 +715,22 @@ class _ResearchPageState extends State<ResearchPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-          child: Column(
-        children: [
-          Spacer(),
-          Text('This is the research page. Put the research information here'),
-          Spacer(),
-          // Container(
-          //   margin: EdgeInsets.all(10),
-          //   child: Row(children: [
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const MyHomePage(
-          //                 title: 'Irrigation Modernization Display'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Home'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const DataPage(title: 'Data'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Data'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const MetricsPage(title: 'Metrics'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Metrics'),
-          //     ),
-          //     Spacer(),
-          //   ]),
-          // ),
-          Spacer(),
-        ],
+      body: SizedBox.expand(
+          child: DraggableScrollableSheet(
+        initialChildSize: 1,
+        minChildSize: 1,
+        builder: (BuildContext context, ScrollController scrollController) {
+          return Container(
+            color: Color.fromARGB(255, 0, 33, 60),
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                return picturesrow;
+              },
+            ),
+          );
+        },
       )),
     );
   }
