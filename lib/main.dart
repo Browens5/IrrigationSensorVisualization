@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:senorvis/dummysensor.dart';
+import 'package:senorvis/realsensensor.dart';
 import 'package:senorvis/chartdata.dart';
 // import 'package:graphic/graphic.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = false;
-final manager = isonpi ? DummySensor() : DummySensor();
+const isonpi = true;
+final manager = isonpi ? RealSensor() : DummySensor();
 
 void main() {
   runApp(const MyApp());
@@ -241,13 +242,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Spacer(),
             header,
             // data1,
-            // const Text(
-            //   'Water Level%:',
-            // ),
-            // Text(
-            //   '$waterlevel',
-            //   style: Theme.of(context).textTheme.headlineMedium,
-            // ),
+            const Text(
+              'Humidity%:',
+            ),
+            Text(
+              '$humidity',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
             Spacer(),
             // Text(
             //     'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
