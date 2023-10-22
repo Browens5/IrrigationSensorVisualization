@@ -16,14 +16,17 @@ class RealSensor implements SensorManager {
 
   double getHumidity() {
     var i2c = I2C(1);
-    try {
-      // print('I2C info:' + i2c.getI2Cinfo());
-      var aht2x = BME280(i2c);
-      var r = aht2x.getValues();
-      return r.humidity;
-    } finally {
-      i2c.dispose();
-    }
+    // try {
+    //   // print('I2C info:' + i2c.getI2Cinfo());
+    //   var aht2x = BME280(i2c);
+    //   var r = aht2x.getValues();
+    //   return r.humidity;
+    // } finally {
+    //   i2c.dispose();
+    // }
+    var aht2x = BME280(i2c);
+    var r = aht2x.getValues();
+    return r.humidity;
   }
 }
 
