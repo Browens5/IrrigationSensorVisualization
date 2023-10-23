@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(milliseconds: 100), (timer) {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
       refreshwater();
       refreshflow();
       refreshhumidity();
