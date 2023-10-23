@@ -16,7 +16,7 @@ class RealSensor implements SensorManager {
   }
 
   double getHumidity() {
-    var s = Serial('/dev/serial0', Baudrate.b9600);
+    var s = Serial('/dev/ttyS0', Baudrate.b9600);
     String humid = s.read(256, 40).toString();
     return double.parse(humid);
     // var i2c = I2C(1);
