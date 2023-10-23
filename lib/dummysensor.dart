@@ -13,6 +13,7 @@ class DummySensor implements SensorManager {
   }
 
   double getHumidity() {
-    return Random().nextDouble() * 100;
+    var source = '4213';
+    return double.parse(source);
   }
 }

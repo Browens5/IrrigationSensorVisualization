@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:senorvis/Interface.dart';
 import 'package:dart_periphery/dart_periphery.dart';
 // import 'dart:io';
+// 0x38 - AHT2x
 
 class RealSensor implements SensorManager {
   @override
@@ -15,7 +16,10 @@ class RealSensor implements SensorManager {
   }
 
   double getHumidity() {
-    var i2c = I2C(1);
+    var s = Serial('/dev/serial0', Baudrate.b9600);
+    String humid = s.read(256, 40).toString();
+    return double.parse(humid);
+    // var i2c = I2C(1);
     // try {
     //   // print('I2C info:' + i2c.getI2Cinfo());
     //   var aht2x = BME280(i2c);
@@ -24,9 +28,9 @@ class RealSensor implements SensorManager {
     // } finally {
     //   i2c.dispose();
     // }
-    var aht2x = BME280(i2c);
-    var r = aht2x.getValues();
-    return r.humidity;
+    // var aht2x = BME280(i2c);
+    // var r = aht2x.getValues();
+    // return r.humidity;
   }
 }
 
