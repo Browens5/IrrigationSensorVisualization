@@ -71,85 +71,6 @@ class ResearchPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double waterlevel = 0;
-  double flowrate = 0;
-  double humidity = 0;
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(Duration(milliseconds: 1000), (timer) {
-      refreshwater();
-      refreshflow();
-      refreshhumidity();
-    });
-  }
-
-  void refreshwater() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      waterlevel = manager.getWaterLevel().roundToDouble();
-    });
-  }
-
-  void refreshflow() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      flowrate = manager.getFlowRate().roundToDouble();
-    });
-  }
-
-  void refreshhumidity() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      humidity = manager.getHumidity().roundToDouble();
-    });
-  }
-
-  void refreshwaterpress() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      waterlevel = waterlevel + 1;
-    });
-  }
-
-  void refreshflowpress() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      flowrate = flowrate + 1;
-    });
-  }
-
-  void refreshhumiditypress() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      humidity = humidity + 1;
-    });
-  }
-
   Widget header = Container(
     alignment: Alignment.topCenter,
     // padding: EdgeInsets.all(10),
@@ -242,14 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Spacer(),
             header,
             // data1,
-            const Text(
-              'Humidity%:',
-            ),
-            Text(
-              '$humidity',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Spacer(),
+
             // Text(
             //     'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
             Spacer(),
@@ -329,7 +243,85 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class _DataPageState extends State<DataPage> {
+  double waterlevel = 0;
+  double flowrate = 0;
+  double humidity = 0;
   @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(milliseconds: 1000), (timer) {
+      refreshwater();
+      refreshflow();
+      refreshhumidity();
+    });
+  }
+
+  void refreshwater() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      waterlevel = manager.getWaterLevel().roundToDouble();
+    });
+  }
+
+  void refreshflow() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      flowrate = manager.getFlowRate().roundToDouble();
+    });
+  }
+
+  void refreshhumidity() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      humidity = manager.getHumidity().roundToDouble();
+    });
+  }
+
+  void refreshwaterpress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      waterlevel = waterlevel + 1;
+    });
+  }
+
+  void refreshflowpress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      flowrate = flowrate + 1;
+    });
+  }
+
+  void refreshhumiditypress() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      humidity = humidity + 1;
+    });
+  }
+
   Widget build(BuildContext context) {
     // final ButtonStyle style =
     //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
@@ -342,8 +334,17 @@ class _DataPageState extends State<DataPage> {
       body: Center(
           child: Column(
         children: [
-          Spacer(),
+          const Spacer(),
+          const Text(
+            'Humidity%:',
+          ),
+          Text(
+            '$humidity',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const Spacer(),
           Container(
+            margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
               primaryXAxis: CategoryAxis(),
@@ -547,7 +548,7 @@ class _DataPageState extends State<DataPage> {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           // Text('This is the data page. Put the data collected here'),
           // Spacer(),
           // Container(
@@ -722,7 +723,7 @@ class _ResearchPageState extends State<ResearchPage> {
         minChildSize: 1,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-            color: Color.fromARGB(255, 0, 33, 60),
+            color: Color.fromARGB(255, 199, 211, 255),
             child: ListView.builder(
               controller: scrollController,
               itemCount: 1,
