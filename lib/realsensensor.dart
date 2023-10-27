@@ -8,7 +8,29 @@ import 'package:dart_periphery/dart_periphery.dart';
 class RealSensor implements SensorManager {
   @override
   double getWaterLevel() {
-    return Random().nextDouble() * 10000;
+    // return Random().nextDouble() * 10000;
+    // return Random().nextDouble() * 1000;
+    var s = Serial('/dev/ttyS0', Baudrate.b9600);
+    try {
+      String humid = s.read(256, 100).toString();
+      return double.parse(humid);
+      // return 1.0;
+    } finally {
+      s.dispose();
+    }
+
+    // var i2c = I2C(1);
+    // try {
+    //   // print('I2C info:' + i2c.getI2Cinfo());
+    //   var aht2x = BME280(i2c);
+    //   var r = aht2x.getValues();
+    //   return r.humidity;
+    // } finally {
+    //   i2c.dispose();
+    // }
+    // var aht2x = BME280(i2c);
+    // var r = aht2x.getValues();
+    // return r.humidity;
   }
 
   double getFlowRate() {

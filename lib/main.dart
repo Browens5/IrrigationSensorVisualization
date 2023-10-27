@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(
           title:
-              '                                                                   Irrigation Modernization Display'),
+              '                                                                        Irrigation Modernization Display'),
     );
   }
 }
