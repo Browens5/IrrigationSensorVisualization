@@ -9,7 +9,7 @@ import 'package:senorvis/chartdata.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = true;
+const isonpi = false;
 final manager = isonpi ? RealSensor() : DummySensor();
 
 void main() {
@@ -261,6 +261,21 @@ class _DataPageState extends State<DataPage> {
   double waterlevel4 = 0;
   double flowrate4 = 0;
   double humidity4 = 0;
+  double waterlevel5 = 0;
+  double flowrate5 = 0;
+  double humidity5 = 0;
+  double waterlevel6 = 0;
+  double flowrate6 = 0;
+  double humidity6 = 0;
+  double waterlevel7 = 0;
+  double flowrate7 = 0;
+  double humidity7 = 0;
+  double waterlevel8 = 0;
+  double flowrate8 = 0;
+  double humidity8 = 0;
+  double waterlevel9 = 0;
+  double flowrate9 = 0;
+  double humidity9 = 0;
   @override
   void initState() {
     super.initState();
@@ -278,6 +293,11 @@ class _DataPageState extends State<DataPage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      waterlevel9 = waterlevel8;
+      waterlevel8 = waterlevel7;
+      waterlevel7 = waterlevel6;
+      waterlevel6 = waterlevel5;
+      waterlevel5 = waterlevel4;
       waterlevel4 = waterlevel3;
       waterlevel3 = waterlevel2;
       waterlevel2 = waterlevel1;
@@ -361,6 +381,26 @@ class _DataPageState extends State<DataPage> {
     return waterlevel4;
   }
 
+  double water5() {
+    return waterlevel5;
+  }
+
+  double water6() {
+    return waterlevel6;
+  }
+
+  double water7() {
+    return waterlevel7;
+  }
+
+  double water8() {
+    return waterlevel8;
+  }
+
+  double water9() {
+    return waterlevel9;
+  }
+
   double flow1() {
     return flowrate;
   }
@@ -399,11 +439,16 @@ class _DataPageState extends State<DataPage> {
                 // Initialize line series
                 LineSeries<ChartData, double>(
                     dataSource: [
-                      ChartData(0, water4()),
-                      ChartData(1, water3()),
-                      ChartData(2, water2()),
-                      ChartData(3, water1()),
-                      ChartData(4, water()),
+                      ChartData(0, water9()),
+                      ChartData(1, water8()),
+                      ChartData(2, water7()),
+                      ChartData(3, water6()),
+                      ChartData(4, water5()),
+                      ChartData(5, water4()),
+                      ChartData(6, water3()),
+                      ChartData(7, water2()),
+                      ChartData(8, water1()),
+                      ChartData(9, water()),
                     ],
                     // dataSource: [
                     //   ChartData(3.83, 27),
