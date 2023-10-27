@@ -17,7 +17,7 @@ class RealSensor implements SensorManager {
 
   double getHumidity() {
     // return Random().nextDouble() * 1000;
-    var s = Serial('/dev/ttyUSB1', Baudrate.b9600);
+    var s = Serial('/dev/ttyUSB0', Baudrate.b9600);
     try {
       String humid = s.read(256, 100).toString();
       return double.parse(humid);

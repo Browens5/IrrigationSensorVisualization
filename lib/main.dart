@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Irrigation Modernization Display'),
+      home: const MyHomePage(
+          title:
+              '                                            Irrigation Modernization Display'),
     );
   }
 }
@@ -342,15 +344,19 @@ class _DataPageState extends State<DataPage> {
   double water() {
     return waterlevel;
   }
+
   double water1() {
     return waterlevel1;
   }
+
   double water2() {
     return waterlevel2;
   }
+
   double water3() {
     return waterlevel3;
   }
+
   double water4() {
     return waterlevel4;
   }
