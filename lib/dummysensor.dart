@@ -5,7 +5,8 @@ import 'package:senorvis/Interface.dart';
 class DummySensor implements SensorManager {
   @override
   double getWaterLevel() {
-    return Random().nextDouble() * 100;
+    // return Random().nextDouble() * 100;
+    return 1;
   }
 
   double getFlowRate() {
@@ -13,7 +14,7 @@ class DummySensor implements SensorManager {
   }
 
   double getHumidity() {
-    var source = '4213';
+    var source = '4';
     return double.parse(source);
   }
 }
