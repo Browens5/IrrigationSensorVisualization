@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:senorvis/dummysensor.dart';
@@ -25,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 0, 2, 105)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 0, 2, 105)),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
@@ -163,17 +162,17 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: <Widget>[
-            Spacer(),
+            const Spacer(),
             header,
             // data1,
 
             // Text(
             //     'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
-            Spacer(),
+            const Spacer(),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: Row(children: [
-                Spacer(),
+                const Spacer(),
                 ElevatedButton(
                   style: style,
                   onPressed: () {
@@ -185,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('Data'),
                 ),
-                Spacer(),
+                const Spacer(),
                 ElevatedButton(
                   style: style,
                   onPressed: () {
@@ -198,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('Metrics'),
                 ),
-                Spacer(),
+                const Spacer(),
                 ElevatedButton(
                   style: style,
                   onPressed: () {
@@ -211,10 +210,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('Research'),
                 ),
-                Spacer(),
+                const Spacer(),
               ]),
             ),
-            Spacer(),
+            const Spacer(),
 
             // const Text(
             //   'Flow Rate:',
@@ -276,10 +275,14 @@ class _DataPageState extends State<DataPage> {
   double waterlevel9 = 0;
   double flowrate9 = 0;
   double humidity9 = 0;
+  double waterlevel10 = 0;
+  double waterlevel11 = 0;
+  double waterlevel12 = 0;
+  double waterlevel13 = 0;
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       refreshwater();
       refreshflow();
       refreshhumidity();
@@ -293,6 +296,10 @@ class _DataPageState extends State<DataPage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      waterlevel13 = waterlevel12;
+      waterlevel12 = waterlevel11;
+      waterlevel11 = waterlevel10;
+      waterlevel10 = waterlevel9;
       waterlevel9 = waterlevel8;
       waterlevel8 = waterlevel7;
       waterlevel7 = waterlevel6;
@@ -401,6 +408,22 @@ class _DataPageState extends State<DataPage> {
     return waterlevel9;
   }
 
+  double water10() {
+    return waterlevel10;
+  }
+
+  double water11() {
+    return waterlevel11;
+  }
+
+  double water12() {
+    return waterlevel12;
+  }
+
+  double water13() {
+    return waterlevel13;
+  }
+
   double flow1() {
     return flowrate;
   }
@@ -409,6 +432,7 @@ class _DataPageState extends State<DataPage> {
     return humidity;
   }
 
+  @override
   Widget build(BuildContext context) {
     // final ButtonStyle style =
     //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
@@ -421,14 +445,14 @@ class _DataPageState extends State<DataPage> {
       body: Center(
           child: Column(
         children: [
-          // const Spacer(),
-          // const Text(
-          //   'Humidity%:',
-          // ),
-          // Text(
-          //   '$humidity',
-          //   style: Theme.of(context).textTheme.headlineMedium,
-          // ),
+          const Spacer(),
+          const Text(
+            'Water Level:',
+          ),
+          Text(
+            '$waterlevel',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
           const Spacer(),
           Container(
             margin: const EdgeInsets.all(20),
@@ -439,16 +463,20 @@ class _DataPageState extends State<DataPage> {
                 // Initialize line series
                 LineSeries<ChartData, double>(
                     dataSource: [
-                      ChartData(0, water9()),
-                      ChartData(1, water8()),
-                      ChartData(2, water7()),
-                      ChartData(3, water6()),
-                      ChartData(4, water5()),
-                      ChartData(5, water4()),
-                      ChartData(6, water3()),
-                      ChartData(7, water2()),
-                      ChartData(8, water1()),
-                      ChartData(9, water()),
+                      ChartData(13, water()),
+                      ChartData(12, water1()),
+                      ChartData(11, water2()),
+                      ChartData(10, water3()),
+                      ChartData(9, water4()),
+                      ChartData(8, water5()),
+                      ChartData(7, water6()),
+                      ChartData(6, water7()),
+                      ChartData(5, water8()),
+                      ChartData(4, water9()),
+                      ChartData(3, water10()),
+                      ChartData(2, water11()),
+                      ChartData(1, water12()),
+                      ChartData(0, water13()),
                     ],
                     // dataSource: [
                     //   ChartData(3.83, 27),
@@ -644,6 +672,7 @@ class _DataPageState extends State<DataPage> {
                     yValueMapper: (ChartData data, _) => data.y,
                     xAxisName: "Time (s)",
                     yAxisName: "Humidity (%)"),
+                    
               ],
             ),
           ),
@@ -715,7 +744,7 @@ class _MetricsPageState extends State<MetricsPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: const Center(
           child: Column(
         children: [
           Spacer(),
@@ -822,7 +851,7 @@ class _ResearchPageState extends State<ResearchPage> {
         minChildSize: 1,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
-            color: Color.fromARGB(255, 199, 211, 255),
+            color: const Color.fromARGB(255, 199, 211, 255),
             child: ListView.builder(
               controller: scrollController,
               itemCount: 1,

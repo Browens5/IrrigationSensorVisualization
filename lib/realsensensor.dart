@@ -35,10 +35,12 @@ class RealSensor implements SensorManager {
     // return r.humidity;
   }
 
+  @override
   double getFlowRate() {
     return Random().nextDouble() * 1000;
   }
 
+  @override
   double getHumidity() {
     // return Random().nextDouble() * 1000;
     var s = Serial('/dev/ttyS0', Baudrate.b9600);
