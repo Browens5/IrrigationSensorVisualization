@@ -12,7 +12,7 @@ class RealSensor implements SensorManager {
     // return Random().nextDouble() * 1000;
     var s = Serial('/dev/ttyS0', Baudrate.b9600);
     try {
-      s.write([1]);
+      s.writeString("1");
 
       String humid = s.read(256, 100).toString();
       return double.parse(humid);
