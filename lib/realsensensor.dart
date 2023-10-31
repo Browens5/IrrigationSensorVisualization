@@ -19,7 +19,8 @@ class RealSensor implements SensorManager {
       return double.parse(humid);
       // return 1.0;
     } finally {
-      // s.dispose();
+      s.dispose();
+      s.flush();
     }
 
     // var i2c = I2C(1);
