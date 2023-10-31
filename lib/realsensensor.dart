@@ -10,7 +10,7 @@ class RealSensor implements SensorManager {
   double getWaterLevel() {
     // return Random().nextDouble() * 10000;
     // return Random().nextDouble() * 1000;
-    var s = Serial('/dev/ttyS0', Baudrate.b9600);
+    // var s = Serial('/dev/ttyS0', Baudrate.b9600);
 
     try {
       // s.writeString("1");
@@ -19,7 +19,7 @@ class RealSensor implements SensorManager {
       // return double.parse(humid);
       return 25.0;
     } finally {
-      s.dispose();
+      // s.dispose();
       //   s.flush();
     }
 
