@@ -16,8 +16,6 @@ class RealSensor implements SensorManager {
       s.writeString("1");
 
       String humid = s.read(256, 1000).toString();
-      s.dispose();
-      s.flush();
       // return double.parse(humid);
       return 25.0;
     } finally {
