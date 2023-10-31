@@ -508,10 +508,10 @@ class _DataPageState extends State<DataPage> {
 
                         // FastLineSeries<ChartData, double>(
                         // LineSeries<ChartData, double>(
-                        // SplineAreaSeries<ChartData, double>(
+                        SplineAreaSeries<ChartData, double>(
                         // BubbleSeries<ChartData, double>(
                         // StepAreaSeries<ChartData, double>(
-                        StepLineSeries<ChartData, double>(
+                        // StepLineSeries<ChartData, double>(
                             dataSource: [
                               ChartData(0, water()),
                               ChartData(1, water1()),
