@@ -447,7 +447,7 @@ class _DataPageState extends State<DataPage> {
         children: [
           const Spacer(),
           const Text(
-            'Water Level:',
+            'Humidity (%):',
           ),
           Text(
             '$waterlevel',
