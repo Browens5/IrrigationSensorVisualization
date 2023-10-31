@@ -17,10 +17,12 @@ class RealSensor implements SensorManager {
 
       var event = s.read(256, 1000);
       String humid = event.toString();
+      //  sleep(Duration(seconds: 1));
+
       return double.parse(humid);
       // return 25.0;
     } finally {
-      // s.dispose();
+      s.dispose();
       //   s.flush();
     }
 
