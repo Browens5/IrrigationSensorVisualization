@@ -282,7 +282,7 @@ class _DataPageState extends State<DataPage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
+    Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       refreshwater();
       refreshflow();
       refreshhumidity();
