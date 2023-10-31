@@ -9,7 +9,7 @@ import 'package:senorvis/chartdata.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = false;
+const isonpi = true;
 final manager = isonpi ? RealSensor() : DummySensor();
 
 void main() {
