@@ -18,7 +18,6 @@ final manager = isonpi ? RealSensor2() : DummySensor();
 void main() {
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
