@@ -12,12 +12,13 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'realsensor2.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = true;
+const isonpi = false;
 final manager = isonpi ? RealSensor2() : DummySensor();
 
 void main() {
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -368,8 +369,8 @@ class _DataPageState extends State<DataPage> {
                           textStyle: const TextStyle(
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
-                      primaryXAxis: NumericAxis(
-                          title: AxisTitle(text: 'Time (s)')),
+                      primaryXAxis:
+                          NumericAxis(title: AxisTitle(text: 'Time (s)')),
                       primaryYAxis: NumericAxis(
                           title: AxisTitle(text: 'Water Level (%)'),
                           labelAlignment: LabelAlignment.center),
@@ -378,12 +379,12 @@ class _DataPageState extends State<DataPage> {
 
                         // FastLineSeries<ChartData, double>(
                         LineSeries<ChartData, int>(
-                        // SplineAreaSeries<ChartData, int>(
+                          // SplineAreaSeries<ChartData, int>(
                           // BubbleSeries<ChartData, double>(
                           // StepAreaSeries<ChartData, double>(
                           // StepLineSeries<ChartData, double>(
                           dataSource: waterlevels,
-                          
+
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
                           xAxisName: "Time (s)",
@@ -407,8 +408,8 @@ class _DataPageState extends State<DataPage> {
                           textStyle: const TextStyle(
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
-                      primaryXAxis: NumericAxis(
-                          title: AxisTitle(text: 'Time (s)')),
+                      primaryXAxis:
+                          NumericAxis(title: AxisTitle(text: 'Time (s)')),
                       primaryYAxis: NumericAxis(
                           title: AxisTitle(text: 'Humidity (%)'),
                           labelAlignment: LabelAlignment.center),
@@ -417,7 +418,7 @@ class _DataPageState extends State<DataPage> {
 
                         // FastLineSeries<ChartData, double>(
                         LineSeries<ChartData, int>(
-                        // SplineAreaSeries<ChartData, int>(
+                          // SplineAreaSeries<ChartData, int>(
                           // BubbleSeries<ChartData, double>(
                           // StepAreaSeries<ChartData, double>(
                           // StepLineSeries<ChartData, double>(
