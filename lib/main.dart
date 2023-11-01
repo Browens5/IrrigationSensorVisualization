@@ -370,16 +370,16 @@ class _DataPageState extends State<DataPage> {
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
                       primaryXAxis: NumericAxis(
-                          title: AxisTitle(text: 'Time Passed (s)')),
+                          title: AxisTitle(text: 'Time (s)')),
                       primaryYAxis: NumericAxis(
-                          title: AxisTitle(text: 'Humidity (%)'),
+                          title: AxisTitle(text: 'Water Level (%)'),
                           labelAlignment: LabelAlignment.center),
                       series: <ChartSeries>[
                         // Initialize line series
 
                         // FastLineSeries<ChartData, double>(
-                        // LineSeries<ChartData, double>(
-                        SplineAreaSeries<ChartData, int>(
+                        LineSeries<ChartData, int>(
+                        // SplineAreaSeries<ChartData, int>(
                           // BubbleSeries<ChartData, double>(
                           // StepAreaSeries<ChartData, double>(
                           // StepLineSeries<ChartData, double>(
@@ -388,9 +388,9 @@ class _DataPageState extends State<DataPage> {
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
                           xAxisName: "Time (s)",
-                          yAxisName: "Humidity (%)",
+                          yAxisName: "Water Level (%)",
                           animationDuration: 800,
-                          color: const Color.fromARGB(255, 9, 255, 0),
+                          color: const Color.fromARGB(255, 13, 0, 255),
                           // markerSettings: const MarkerSettings(isVisible: true),
                         ),
                       ],
@@ -409,7 +409,7 @@ class _DataPageState extends State<DataPage> {
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
                       primaryXAxis: NumericAxis(
-                          title: AxisTitle(text: 'Time Passed (s)')),
+                          title: AxisTitle(text: 'Time (s)')),
                       primaryYAxis: NumericAxis(
                           title: AxisTitle(text: 'Humidity (%)'),
                           labelAlignment: LabelAlignment.center),
