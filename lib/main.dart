@@ -406,14 +406,14 @@ class _DataPageState extends State<DataPage> {
             margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
-              title: ChartTitle(
-                  text: 'Flow Rate Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 101, 0, 0),
-                  )),
+              // title: ChartTitle(
+              //     text: 'Flow Rate Data (%)',
+              //     borderWidth: 2,
+              //     // Aligns the chart title to left
+              //     alignment: ChartAlignment.center,
+              //     textStyle: const TextStyle(
+              //       color: Color.fromARGB(255, 101, 0, 0),
+              //     )),
               primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
               primaryYAxis: NumericAxis(
                   title: AxisTitle(text: 'Flow Rate (L/min)'),
@@ -444,14 +444,14 @@ class _DataPageState extends State<DataPage> {
             margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
-              title: ChartTitle(
-                  text: 'Water Level Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
+              // title: ChartTitle(
+              //     text: 'Water Level Data (%)',
+              //     borderWidth: 2,
+              //     // Aligns the chart title to left
+              //     alignment: ChartAlignment.center,
+              //     textStyle: const TextStyle(
+              //       color: Color.fromARGB(255, 5, 0, 101),
+              //     )),
               primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
               primaryYAxis: NumericAxis(
                   title: AxisTitle(text: 'Water Level (%)'),
@@ -482,14 +482,14 @@ class _DataPageState extends State<DataPage> {
             margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
-              title: ChartTitle(
-                  text: 'Humidity Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
+              // title: ChartTitle(
+              //     text: 'Humidity Data (%)',
+              //     borderWidth: 2,
+              //     // Aligns the chart title to left
+              //     alignment: ChartAlignment.center,
+              //     textStyle: const TextStyle(
+              //       color: Color.fromARGB(255, 5, 0, 101),
+              //     )),
               primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
               primaryYAxis: NumericAxis(
                   title: AxisTitle(text: 'Humidity (%)'),
