@@ -12,7 +12,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'realsensor2.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = false;
+const isonpi = true;
 final manager = isonpi ? RealSensor2() : DummySensor();
 
 void main() {
@@ -57,6 +57,7 @@ class DataPage extends StatefulWidget {
   @override
   State<DataPage> createState() => _DataPageState();
 }
+
 class FlowRatePage extends StatefulWidget {
   const FlowRatePage({super.key, required this.title});
 
@@ -597,8 +598,7 @@ class _FlowRatePageState extends State<FlowRatePage> {
 
           const Spacer(),
           Container(
-              margin: const EdgeInsets.all(20),
-              
+            margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
               title: ChartTitle(
@@ -751,7 +751,7 @@ class _WaterLevelPageState extends State<WaterLevelPage> {
 }
 
 class _HumidityPageState extends State<HumidityPage> {
-    StreamSubscription<double>? _humiditySubscription;
+  StreamSubscription<double>? _humiditySubscription;
   @override
   void initState() {
     super.initState();
