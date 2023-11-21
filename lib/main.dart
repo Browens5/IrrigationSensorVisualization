@@ -12,7 +12,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'realsensor2.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = true;
+const isonpi = false;
 final manager = isonpi ? RealSensor2() : DummySensor();
 
 void main() {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Irrigation Display',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 0, 2, 105)),
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(
           title:
-              '                                                                        Irrigation Modernization Display'),
+              '                                                                        Irrigation Modernization Sensor Data'),
     );
   }
 }
@@ -56,6 +56,32 @@ class DataPage extends StatefulWidget {
 
   @override
   State<DataPage> createState() => _DataPageState();
+}
+class FlowRatePage extends StatefulWidget {
+  const FlowRatePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<FlowRatePage> createState() => _FlowRatePageState();
+}
+
+class WaterLevelPage extends StatefulWidget {
+  const WaterLevelPage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<WaterLevelPage> createState() => _WaterLevelPageState();
+}
+
+class HumidityPage extends StatefulWidget {
+  const HumidityPage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<HumidityPage> createState() => _HumidityPageState();
 }
 
 class MetricsPage extends StatefulWidget {
@@ -93,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         Image.asset(
           'images/90.png',
-          width: 150 * 2,
-          height: 80 * 2,
+          width: 180 * 2,
+          height: 100 * 2,
           fit: BoxFit.cover,
         ),
       ],
@@ -195,11 +221,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            const MetricsPage(title: 'Metrics'),
+                            const FlowRatePage(title: 'Flow Rate'),
                       ),
                     );
                   },
-                  child: const Text('Metrics'),
+                  child: const Text('Flow Rate'),
                 ),
                 const Spacer(),
                 ElevatedButton(
@@ -208,11 +234,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            const ResearchPage(title: 'Research'),
+                            const WaterLevelPage(title: 'Water Level'),
                       ),
                     );
                   },
-                  child: const Text('Research'),
+                  child: const Text('Water Level'),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  style: style,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const HumidityPage(title: 'Humidity'),
+                      ),
+                    );
+                  },
+                  child: const Text('Humidity'),
                 ),
                 const Spacer(),
               ]),
@@ -491,6 +530,326 @@ class _DataPageState extends State<DataPage> {
           //   ]),
           // ),
           // Spacer(),
+        ],
+      )),
+    );
+  }
+}
+
+class _FlowRatePageState extends State<FlowRatePage> {
+  StreamSubscription<double>? _flowRateSubscription;
+  @override
+  void initState() {
+    super.initState();
+    _flowRateSubscription = manager.flowRateStream.listen(_flowRateListener);
+  }
+
+  @override
+  void dispose() {
+    _flowRateSubscription?.cancel();
+    super.dispose();
+  }
+
+  List<ChartData> flowrates = [];
+  List<ChartData> recentrates = [];
+  int lengthdata = 200;
+
+  void _flowRateListener(double rate) {
+    flowrates.add(ChartData(flowrates.length, rate));
+    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                const Spacer(),
+                Column(
+                  children: [
+                    const Text(
+                      'Flow Rate: ',
+                    ),
+                    Text(
+                      flowrates.lastOrNull?.y.toStringAsFixed(2) ??
+                          'Not Available',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+
+          const Spacer(),
+          Container(
+              margin: const EdgeInsets.all(20),
+              
+            child: SfCartesianChart(
+              // Initialize category axis
+              title: ChartTitle(
+                  text: 'Flow Rate Data (L/min)',
+                  borderWidth: 2,
+                  // Aligns the chart title to left
+                  alignment: ChartAlignment.center,
+                  textStyle: const TextStyle(
+                    color: Color.fromARGB(255, 5, 0, 101),
+                  )),
+              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+              primaryYAxis: NumericAxis(
+                  title: AxisTitle(text: 'Flow Rate (L/min)'),
+                  labelAlignment: LabelAlignment.center),
+              series: <ChartSeries>[
+                // Initialize line series
+
+                // FastLineSeries<ChartData, double>(
+                LineSeries<ChartData, int>(
+                  // SplineAreaSeries<ChartData, int>(
+                  // BubbleSeries<ChartData, double>(
+                  // StepAreaSeries<ChartData, double>(
+                  // StepLineSeries<ChartData, double>(
+                  dataSource: recentrates,
+
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  xAxisName: "Time (a.u.)",
+                  yAxisName: "Flow Rate (L/min)",
+                  animationDuration: 800,
+                  color: const Color.fromARGB(255, 13, 0, 255),
+                  // markerSettings: const MarkerSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+
+          // const Spacer(),
+        ],
+      )),
+    );
+  }
+}
+
+class _WaterLevelPageState extends State<WaterLevelPage> {
+  StreamSubscription<double>? _waterLevelSubscription;
+  @override
+  void initState() {
+    super.initState();
+    _waterLevelSubscription =
+        manager.waterLevelStream.listen(_waterLevelListener);
+  }
+
+  @override
+  void dispose() {
+    _waterLevelSubscription?.cancel();
+    super.dispose();
+  }
+
+  List<ChartData> waterlevels = [];
+  List<ChartData> recentlevels = [];
+  int lengthdata = 200;
+
+  void _waterLevelListener(double level) {
+    waterlevels.add(ChartData(waterlevels.length, level));
+    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                const Spacer(),
+                Column(
+                  children: [
+                    const Text(
+                      'Water Level (%): ',
+                    ),
+                    Text(
+                      waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
+                          'Not Available',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: SfCartesianChart(
+              // Initialize category axis
+              title: ChartTitle(
+                  text: 'Water Level Data (%)',
+                  borderWidth: 2,
+                  // Aligns the chart title to left
+                  alignment: ChartAlignment.center,
+                  textStyle: const TextStyle(
+                    color: Color.fromARGB(255, 5, 0, 101),
+                  )),
+              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+              primaryYAxis: NumericAxis(
+                  title: AxisTitle(text: 'Water Level (%)'),
+                  labelAlignment: LabelAlignment.center),
+              series: <ChartSeries>[
+                // Initialize line series
+
+                // FastLineSeries<ChartData, double>(
+                LineSeries<ChartData, int>(
+                  // SplineAreaSeries<ChartData, int>(
+                  // BubbleSeries<ChartData, double>(
+                  // StepAreaSeries<ChartData, double>(
+                  // StepLineSeries<ChartData, double>(
+                  dataSource: recentlevels,
+
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  xAxisName: "Time (a.u.)",
+                  yAxisName: "Water Level (%)",
+                  animationDuration: 800,
+                  color: const Color.fromARGB(255, 13, 0, 255),
+                  // markerSettings: const MarkerSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+
+          // const Spacer(),
+        ],
+      )),
+    );
+  }
+}
+
+class _HumidityPageState extends State<HumidityPage> {
+    StreamSubscription<double>? _humiditySubscription;
+  @override
+  void initState() {
+    super.initState();
+    _humiditySubscription = manager.humidityStream.listen(_humidityListener);
+  }
+
+  @override
+  void dispose() {
+    _humiditySubscription?.cancel();
+    super.dispose();
+  }
+
+  List<ChartData> humidities = [];
+  List<ChartData> recenthumids = [];
+  int lengthdata = 200;
+
+  void _humidityListener(double humidity) {
+    humidities.add(ChartData(humidities.length, humidity));
+    recenthumids = humidities.sublist(max(0, humidities.length - lengthdata));
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                const Spacer(),
+                Column(
+                  children: [
+                    const Text(
+                      'Humidity (%): ',
+                    ),
+                    Text(
+                      humidities.lastOrNull?.y.toStringAsFixed(2) ??
+                          'Not Available',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+
+          const Spacer(),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: SfCartesianChart(
+              // Initialize category axis
+              title: ChartTitle(
+                  text: 'Humidity Data (%)',
+                  borderWidth: 2,
+                  // Aligns the chart title to left
+                  alignment: ChartAlignment.center,
+                  textStyle: const TextStyle(
+                    color: Color.fromARGB(255, 5, 0, 101),
+                  )),
+              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+              primaryYAxis: NumericAxis(
+                  title: AxisTitle(text: 'Humidity (%)'),
+                  labelAlignment: LabelAlignment.center),
+              series: <ChartSeries>[
+                // Initialize line series
+
+                // FastLineSeries<ChartData, double>(
+                LineSeries<ChartData, int>(
+                  // SplineAreaSeries<ChartData, int>(
+                  // BubbleSeries<ChartData, double>(
+                  // StepAreaSeries<ChartData, double>(
+                  // StepLineSeries<ChartData, double>(
+                  dataSource: recenthumids,
+
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  xAxisName: "Time (a.u.)",
+                  yAxisName: "Humidity (%)",
+                  animationDuration: 800,
+                  color: const Color.fromARGB(255, 13, 0, 255),
+                  // markerSettings: const MarkerSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+
+          // const Spacer(),
         ],
       )),
     );
