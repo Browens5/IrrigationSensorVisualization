@@ -403,7 +403,7 @@ class _DataPageState extends State<DataPage> {
           //       children: [
           // const Spacer(),
           Container(
-            margin: const EdgeInsets.all(40),
+            margin: const EdgeInsets.all(24),
             child: SfCartesianChart(
               // Initialize category axis
               title: ChartTitle(
@@ -441,7 +441,7 @@ class _DataPageState extends State<DataPage> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(40),
+            margin: const EdgeInsets.all(24),
             child: SfCartesianChart(
               // Initialize category axis
               title: ChartTitle(
@@ -479,7 +479,7 @@ class _DataPageState extends State<DataPage> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(40),
+            margin: const EdgeInsets.all(24),
             child: SfCartesianChart(
               // Initialize category axis
               title: ChartTitle(
