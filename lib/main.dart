@@ -412,7 +412,7 @@ class _DataPageState extends State<DataPage> {
                   // Aligns the chart title to left
                   alignment: ChartAlignment.center,
                   textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 101, 0, 0),
+                    color: Color.fromARGB(255, 5, 0, 101),
                   )),
               primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
               primaryYAxis: NumericAxis(
@@ -434,7 +434,7 @@ class _DataPageState extends State<DataPage> {
                   xAxisName: "Time (a.u.)",
                   yAxisName: "Flow Rate (L/min)",
                   animationDuration: 800,
-                  color: const Color.fromARGB(255, 13, 0, 255),
+                  color: const Color.fromARGB(255, 255, 0, 0),
                   // markerSettings: const MarkerSettings(isVisible: true),
                 ),
               ],
@@ -666,7 +666,7 @@ class _FlowRatePageState extends State<FlowRatePage> {
               xAxisName: "Time (a.u.)",
               yAxisName: "Flow Rate (L/min)",
               animationDuration: 800,
-              color: const Color.fromARGB(255, 13, 0, 255),
+              color: const Color.fromARGB(255, 255, 0, 0),
               // markerSettings: const MarkerSettings(isVisible: true),
             ),
           ],
@@ -881,7 +881,7 @@ class _HumidityPageState extends State<HumidityPage> {
               xAxisName: "Time (a.u.)",
               yAxisName: "Humidity (%)",
               animationDuration: 800,
-              color: const Color.fromARGB(255, 13, 0, 255),
+              color: const Color.fromARGB(255, 0, 255, 51),
               // markerSettings: const MarkerSettings(isVisible: true),
             ),
           ],
