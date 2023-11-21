@@ -3,9 +3,10 @@ import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:senorvis/dummysensor.dart';
-import 'package:senorvis/realsensensor.dart';
-import 'package:senorvis/chartdata.dart';
+import 'package:sensorvis/chart.dart';
+import 'package:sensorvis/dummysensor.dart';
+import 'package:sensorvis/realsensensor.dart';
+import 'package:sensorvis/chartdata.dart';
 // import 'package:graphic/graphic.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -402,118 +403,23 @@ class _DataPageState extends State<DataPage> {
           //     child: Row(
           //       children: [
           // const Spacer(),
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-            child: SfCartesianChart(
-              // Initialize category axis
-              title: ChartTitle(
-                  text: 'Flow Rate Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
-              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-              primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: 'Flow Rate (L/min)'),
-                  labelAlignment: LabelAlignment.center),
-              series: <ChartSeries>[
-                // Initialize line series
-
-                // FastLineSeries<ChartData, double>(
-                LineSeries<ChartData, int>(
-                  // SplineAreaSeries<ChartData, int>(
-                  // BubbleSeries<ChartData, double>(
-                  // StepAreaSeries<ChartData, double>(
-                  // StepLineSeries<ChartData, double>(
-                  dataSource: recentrates,
-
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  xAxisName: "Time (a.u.)",
-                  yAxisName: "Flow Rate (L/min)",
-                  animationDuration: 800,
-                  color: const Color.fromARGB(255, 255, 0, 0),
-                  // markerSettings: const MarkerSettings(isVisible: true),
-                ),
-              ],
-            ),
+          ChartWidget(
+            title: 'Flow Rate Data (%)',
+            data: recentrates,
+            axisName: 'Flow Rate (L/min)',
+            color: const Color.fromARGB(255, 255, 0, 0),
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-            child: SfCartesianChart(
-              // Initialize category axis
-              title: ChartTitle(
-                  text: 'Water Level Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
-              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-              primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: 'Water Level (%)'),
-                  labelAlignment: LabelAlignment.center),
-              series: <ChartSeries>[
-                // Initialize line series
-
-                // FastLineSeries<ChartData, double>(
-                LineSeries<ChartData, int>(
-                  // SplineAreaSeries<ChartData, int>(
-                  // BubbleSeries<ChartData, double>(
-                  // StepAreaSeries<ChartData, double>(
-                  // StepLineSeries<ChartData, double>(
-                  dataSource: recentlevels,
-
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  xAxisName: "Time (a.u.)",
-                  yAxisName: "Water Level (%)",
-                  animationDuration: 800,
-                  color: const Color.fromARGB(255, 13, 0, 255),
-                  // markerSettings: const MarkerSettings(isVisible: true),
-                ),
-              ],
-            ),
+          ChartWidget(
+            title: 'Water Level Data (%)',
+            data: recentlevels,
+            axisName: "Water Level (%)",
+            color: const Color.fromARGB(255, 13, 0, 255),
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-            child: SfCartesianChart(
-              // Initialize category axis
-              title: ChartTitle(
-                  text: 'Humidity Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
-              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-              primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: 'Humidity (%)'),
-                  labelAlignment: LabelAlignment.center),
-              series: <ChartSeries>[
-                // Initialize line series
-
-                // FastLineSeries<ChartData, double>(
-                LineSeries<ChartData, int>(
-                  // SplineAreaSeries<ChartData, int>(
-                  // BubbleSeries<ChartData, double>(
-                  // StepAreaSeries<ChartData, double>(
-                  // StepLineSeries<ChartData, double>(
-                  dataSource: recenthumids,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  xAxisName: "Time (a.u.)",
-                  yAxisName: "Humidity (%)",
-                  animationDuration: 800,
-                  color: const Color.fromARGB(255, 9, 255, 0),
-                  // markerSettings: const MarkerSettings(isVisible: true),
-                ),
-              ],
-            ),
+          ChartWidget(
+            title: 'Humidity Data (%)',
+            data: recenthumids,
+            axisName: 'Humidity (%)',
+            color: const Color.fromARGB(255, 9, 255, 0),
           ),
           const Spacer(),
         ],

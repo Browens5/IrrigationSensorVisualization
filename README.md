@@ -1,4 +1,4 @@
-# senorvis
+# sensorvis
 
 A new Flutter project.
 

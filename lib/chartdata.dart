@@ -3,3 +3,4 @@ class ChartData {
   final int x;
   final double y;
 }
+

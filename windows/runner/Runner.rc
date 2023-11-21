@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "senorvis" "\0"
+            VALUE "FileDescription", "sensorvis" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "senorvis" "\0"
+            VALUE "InternalName", "sensorvis" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "senorvis.exe" "\0"
-            VALUE "ProductName", "senorvis" "\0"
+            VALUE "OriginalFilename", "sensorvis.exe" "\0"
+            VALUE "ProductName", "sensorvis" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

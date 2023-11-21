@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:senorvis/Interface.dart';
+import 'package:sensorvis/Interface.dart';
 
 class DummySensor extends SensorManager {
   @override

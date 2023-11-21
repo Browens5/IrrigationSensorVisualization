@@ -1,6 +1,6 @@
 // import 'dart:math';
 
-// import 'package:senorvis/Interface.dart';
+// import 'package:sensorvis/Interface.dart';
 // import 'package:dart_periphery/dart_periphery.dart';
 
 // // import 'dart:io';

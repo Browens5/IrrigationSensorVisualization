@@ -1,6 +1,6 @@
 {
-    "name": "senorvis",
-    "short_name": "senorvis",
+    "name": "sensorvis",
+    "short_name": "sensorvis",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
