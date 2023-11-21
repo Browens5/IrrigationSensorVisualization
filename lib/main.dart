@@ -272,21 +272,26 @@ class _DataPageState extends State<DataPage> {
   List<ChartData> waterlevels = [];
   List<ChartData> recentlevels = [];
   List<ChartData> flowrates = [];
+  List<ChartData> recentrates = [];
   List<ChartData> humidities = [];
+  List<ChartData> recenthumids = [];
+  int lengthdata = 200;
 
   void _waterLevelListener(double level) {
     waterlevels.add(ChartData(waterlevels.length, level));
-    recentlevels = waterlevels.sublist(max(0, waterlevels.length - 100));
+    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
     setState(() {});
   }
 
   void _flowRateListener(double rate) {
     flowrates.add(ChartData(flowrates.length, rate));
+    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
     setState(() {});
   }
 
   void _humidityListener(double humidity) {
     humidities.add(ChartData(humidities.length, humidity));
+    recenthumids = humidities.sublist(max(0, humidities.length - lengthdata));
     setState(() {});
   }
 
@@ -362,7 +367,7 @@ class _DataPageState extends State<DataPage> {
                     child: SfCartesianChart(
                       // Initialize category axis
                       title: ChartTitle(
-                          text: 'Humidity Data (%)',
+                          text: 'Water Level Data (%)',
                           borderWidth: 2,
                           // Aligns the chart title to left
                           alignment: ChartAlignment.center,
@@ -370,7 +375,7 @@ class _DataPageState extends State<DataPage> {
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
                       primaryXAxis:
-                          NumericAxis(title: AxisTitle(text: 'Time (s)')),
+                          NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
                       primaryYAxis: NumericAxis(
                           title: AxisTitle(text: 'Water Level (%)'),
                           labelAlignment: LabelAlignment.center),
@@ -383,11 +388,11 @@ class _DataPageState extends State<DataPage> {
                           // BubbleSeries<ChartData, double>(
                           // StepAreaSeries<ChartData, double>(
                           // StepLineSeries<ChartData, double>(
-                          dataSource: waterlevels,
+                          dataSource: recentlevels,
 
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
-                          xAxisName: "Time (s)",
+                          xAxisName: "Time (a.u.)",
                           yAxisName: "Water Level (%)",
                           animationDuration: 800,
                           color: const Color.fromARGB(255, 13, 0, 255),
@@ -409,7 +414,7 @@ class _DataPageState extends State<DataPage> {
                             color: Color.fromARGB(255, 5, 0, 101),
                           )),
                       primaryXAxis:
-                          NumericAxis(title: AxisTitle(text: 'Time (s)')),
+                          NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
                       primaryYAxis: NumericAxis(
                           title: AxisTitle(text: 'Humidity (%)'),
                           labelAlignment: LabelAlignment.center),
@@ -422,10 +427,10 @@ class _DataPageState extends State<DataPage> {
                           // BubbleSeries<ChartData, double>(
                           // StepAreaSeries<ChartData, double>(
                           // StepLineSeries<ChartData, double>(
-                          dataSource: humidities,
+                          dataSource: recenthumids,
                           xValueMapper: (ChartData data, _) => data.x,
                           yValueMapper: (ChartData data, _) => data.y,
-                          xAxisName: "Time (s)",
+                          xAxisName: "Time (a.u.)",
                           yAxisName: "Humidity (%)",
                           animationDuration: 800,
                           color: const Color.fromARGB(255, 9, 255, 0),
@@ -572,7 +577,7 @@ class _ResearchPageState extends State<ResearchPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          'images/re1.png',
+          'images/re1.jpeg',
           width: 180 * 4,
           height: 145 * 4,
           fit: BoxFit.cover,

@@ -5,7 +5,7 @@ import 'package:senorvis/Interface.dart';
 class DummySensor extends SensorManager {
   @override
   void init() {
-    Stream.periodic(const Duration(milliseconds: 100), (_) {
+    Stream.periodic(const Duration(milliseconds: 10), (_) {
       final kind = Random().nextInt(3);
       if (kind == 0) {
         waterLevel.add(Random().nextDouble() * 100);
