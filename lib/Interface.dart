@@ -4,15 +4,6 @@ import 'dart:async';
 
 abstract class SensorManager {
   SensorManager() {
-    waterLevelStream.listen((event) {
-      print("Water Level: $event");
-    });
-    flowRateStream.listen((event) {
-      print("Flow Rate: $event");
-    });
-    humidityStream.listen((event) {
-      print("Humidity: $event");
-    });
     init();
   }
   void init();

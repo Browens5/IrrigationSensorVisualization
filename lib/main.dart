@@ -1,23 +1,13 @@
-import 'dart:async';
-import 'dart:ffi';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sensorvis/chart.dart';
-import 'package:sensorvis/dummysensor.dart';
-import 'package:sensorvis/realsensensor.dart';
 import 'package:sensorvis/chartdata.dart';
 // import 'package:graphic/graphic.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'realsensor2.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = true;
-final manager = isonpi ? RealSensor2() : DummySensor();
-
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -34,9 +24,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(
-          title:
-              '                                                                        Irrigation Modernization Sensor Data'),
+      home: const MyHomePage(title: 'Irrigation Modernization Sensor Data'),
     );
   }
 }
@@ -48,51 +36,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class DataPage extends StatefulWidget {
-  const DataPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<DataPage> createState() => _DataPageState();
-}
-
-class FlowRatePage extends StatefulWidget {
-  const FlowRatePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<FlowRatePage> createState() => _FlowRatePageState();
-}
-
-class WaterLevelPage extends StatefulWidget {
-  const WaterLevelPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<WaterLevelPage> createState() => _WaterLevelPageState();
-}
-
-class HumidityPage extends StatefulWidget {
-  const HumidityPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<HumidityPage> createState() => _HumidityPageState();
-}
-
-class MetricsPage extends StatefulWidget {
-  const MetricsPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MetricsPage> createState() => _MetricsPageState();
 }
 
 class ResearchPage extends StatefulWidget {
@@ -129,31 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   );
 
-  // Widget datalist = Container(
-  //   alignment: Alignment.bottomCenter,
-  //   child: Row(
-  //     children: [
-  //       Expanded(
-  //           child: Column(
-  //         children: [
-  //           const Text(
-  //             'Water Level(Dummy Data)%:',
-  //           ),
-  //           Text(
-  //             '$waterlevel',
-  //             style: Theme.of(context).textTheme.headlineMedium,
-  //           ),
-  //           ElevatedButton(
-  //             style: style,
-  //             onPressed: refreshwaterpress,
-  //             child: const Text('Add Water'),
-  //           ),
-  //         ],
-  //       ))
-  //     ],
-  //   ),
-  // );
-
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -170,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        centerTitle: true,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
@@ -196,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Spacer(),
             header,
-            // data1,
 
             // Text(
             //     'This display was created by Bill Ezouaouy, Brad McDonald, Yu-Ching Lee, and Brian Owens under the direction of Kara Kafferty'),
@@ -259,616 +177,199 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
             ),
             const Spacer(),
-
-            // const Text(
-            //   'Flow Rate:',
-            // ),
-            // Text(
-            //   '$flowrate',
-            //   style: Theme.of(context).textTheme.headlineMedium,
-            // ),
-
-            // const Text(
-            //   'Humidity%:',
-            // ),
-            // Text(
-            //   '$humidity',
-            //   style: Theme.of(context).textTheme.headlineMedium,
-            // ),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: refreshwaterpress,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
-
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
 
-class _DataPageState extends State<DataPage> {
-  StreamSubscription<double>? _waterLevelSubscription;
-  StreamSubscription<double>? _flowRateSubscription;
-  StreamSubscription<double>? _humiditySubscription;
+class DataPage extends ConsumerWidget {
+  const DataPage({required this.title, super.key});
+  final String title;
   @override
-  void initState() {
-    super.initState();
-    _waterLevelSubscription =
-        manager.waterLevelStream.listen(_waterLevelListener);
-    _flowRateSubscription = manager.flowRateStream.listen(_flowRateListener);
-    _humiditySubscription = manager.humidityStream.listen(_humidityListener);
-  }
-
-  @override
-  void dispose() {
-    _waterLevelSubscription?.cancel();
-    _flowRateSubscription?.cancel();
-    _humiditySubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> waterlevels = [];
-  List<ChartData> recentlevels = [];
-  List<ChartData> flowrates = [];
-  List<ChartData> recentrates = [];
-  List<ChartData> humidities = [];
-  List<ChartData> recenthumids = [];
-  int lengthdata = 200;
-
-  void _waterLevelListener(double level) {
-    waterlevels.add(ChartData(waterlevels.length, level));
-    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
-    setState(() {});
-  }
-
-  void _flowRateListener(double rate) {
-    flowrates.add(ChartData(flowrates.length, rate));
-    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
-    setState(() {});
-  }
-
-  void _humidityListener(double humidity) {
-    humidities.add(ChartData(humidities.length, humidity));
-    recenthumids = humidities.sublist(max(0, humidities.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recentrates = ref.watch(filteredDataProvider(SourceKind.flowRate));
+    final recentlevels = ref.watch(filteredDataProvider(SourceKind.waterLevel));
+    final recenthumids = ref.watch(filteredDataProvider(SourceKind.humidity));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
           child: Row(
         children: [
-          // const Spacer(),
-          // Container(
-          //   margin: const EdgeInsets.all(20),
-          //   child: Row(
-          //     children: [
-          //       const Spacer(),
-          //       Column(
-          //         children: [
-          //           const Text(
-          //             'Water level: ',
-          //           ),
-          //           Text(
-          //             waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
-          //                 'Not Available',
-          //             style: Theme.of(context).textTheme.headlineMedium,
-          //           ),
-          //         ],
-          //       ),
-          //       Column(
-          //         children: [
-          //           const Text(
-          //             'Flow Rate: ',
-          //           ),
-          //           Text(
-          //             flowrates.isEmpty
-          //                 ? 'Not Available'
-          //                 : "${(flowrates.lastOrNull ?? ChartData(0, 0.0)).y.toStringAsFixed(2)} L/s",
-          //             style: Theme.of(context).textTheme.headlineMedium,
-          //           ),
-          //         ],
-          //       ),
-          //       const Spacer(),
-          //       Column(
-          //         children: [
-          //           const Text(
-          //             'Humidity (%):',
-          //           ),
-          //           Text(
-          //             humidities.lastOrNull?.y.toStringAsFixed(2) ??
-          //                 'Not Available',
-          //             style: Theme.of(context).textTheme.headlineMedium,
-          //           ),
-          //         ],
-          //       ),
-          //       const Spacer(),
-          //     ],
-          //   ),
-          // ),
-
-          // const Spacer(),
-          // Container(
-          //     margin: const EdgeInsets.all(20),
-          //     child: Row(
-          //       children: [
-          // const Spacer(),
-          ChartWidget(
-            title: 'Flow Rate Data (%)',
-            data: recentrates,
-            axisName: 'Flow Rate (L/min)',
-            color: const Color.fromARGB(255, 255, 0, 0),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              child: ChartWidget(
+                title: 'Flow Rate Data (%)',
+                data: recentrates,
+                axisName: 'Flow Rate (L/min)',
+                color: const Color.fromARGB(255, 255, 0, 0),
+              ),
+            ),
           ),
-          ChartWidget(
-            title: 'Water Level Data (%)',
-            data: recentlevels,
-            axisName: "Water Level (%)",
-            color: const Color.fromARGB(255, 13, 0, 255),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              child: ChartWidget(
+                title: 'Water Level Data (%)',
+                data: recentlevels,
+                axisName: "Water Level (%)",
+                color: const Color.fromARGB(255, 13, 0, 255),
+              ),
+            ),
           ),
-          ChartWidget(
-            title: 'Humidity Data (%)',
-            data: recenthumids,
-            axisName: 'Humidity (%)',
-            color: const Color.fromARGB(255, 9, 255, 0),
+          Expanded(
+            // flex: 2,
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+              child: ChartWidget(
+                title: 'Humidity Data (%)',
+                data: recenthumids,
+                axisName: 'Humidity (%)',
+                color: const Color.fromARGB(255, 9, 255, 0),
+              ),
+            ),
           ),
-          const Spacer(),
         ],
       )),
-
-      // const Spacer(),
-      // Text('This is the data page. Put the data collected here'),
-      // Spacer(),
-      // Container(
-      //   margin: EdgeInsets.all(10),
-      //   child: Row(children: [
-      //     Spacer(),
-      //     ElevatedButton(
-      //       style: style,
-      //       onPressed: () {
-      //         Navigator.of(context).push(
-      //           MaterialPageRoute(
-      //             builder: (context) => const MyHomePage(
-      //                 title: 'Irrigation Modernization Display'),
-      //           ),
-      //         );
-      //       },
-      //       child: const Text('Home'),
-      //     ),
-      //     Spacer(),
-      //     ElevatedButton(
-      //       style: style,
-      //       onPressed: () {
-      //         Navigator.of(context).push(
-      //           MaterialPageRoute(
-      //             builder: (context) => const MetricsPage(title: 'Metrics'),
-      //           ),
-      //         );
-      //       },
-      //       child: const Text('Metrics'),
-      //     ),
-      //     Spacer(),
-      //     ElevatedButton(
-      //       style: style,
-      //       onPressed: () {
-      //         Navigator.of(context).push(
-      //           MaterialPageRoute(
-      //             builder: (context) =>
-      //                 const ResearchPage(title: 'Research'),
-      //           ),
-      //         );
-      //       },
-      //       child: const Text('Research'),
-      //     ),
-      //     Spacer(),
-      //   ]),
-      // ),
-      // Spacer(),
-      // ],
-      // )
-      // ),
     );
   }
 }
 
-class _FlowRatePageState extends State<FlowRatePage> {
-  StreamSubscription<double>? _flowRateSubscription;
+class FlowRatePage extends HookConsumerWidget {
+  const FlowRatePage({required this.title, super.key});
+  final String title;
   @override
-  void initState() {
-    super.initState();
-    _flowRateSubscription = manager.flowRateStream.listen(_flowRateListener);
-  }
-
-  @override
-  void dispose() {
-    _flowRateSubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> flowrates = [];
-  List<ChartData> recentrates = [];
-  int lengthdata = 200;
-
-  void _flowRateListener(double rate) {
-    flowrates.add(ChartData(flowrates.length, rate));
-    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nPoints = useState(200);
+    final recentrates = ref.watch(
+        filteredDataProvider(SourceKind.flowRate, nPoints: nPoints.value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: SizedBox(
-        // child: Column(
-        // children: [
-        // const Spacer(),
-        // Container(
-        //   margin: const EdgeInsets.all(20),
-        //   child: Row(
-        //     children: [
-        //       const Spacer(),
-        //       Column(
-        //         children: [
-        //           const Text(
-        //             'Flow Rate: ',
-        //           ),
-        //           Text(
-        //             flowrates.lastOrNull?.y.toStringAsFixed(2) ??
-        //                 'Not Available',
-        //             style: Theme.of(context).textTheme.headlineMedium,
-        //           ),
-        //         ],
-        //       ),
-        //       const Spacer(),
-        //     ],
-        //   ),
-        // ),
-
-        // const Spacer(),
-        // Container(
-        // margin: const EdgeInsets.all(20),
-        child: SfCartesianChart(
-          // Initialize category axis
-          // title: ChartTitle(
-          //     text: 'Flow Rate Data (L/min)',
-          //     borderWidth: 2,
-          //     // Aligns the chart title to left
-          //     alignment: ChartAlignment.center,
-          //     textStyle: const TextStyle(
-          //       color: Color.fromARGB(255, 5, 0, 101),
-          //     )),
-          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-          primaryYAxis: NumericAxis(
-              title: AxisTitle(text: 'Flow Rate (L/min)'),
-              labelAlignment: LabelAlignment.center),
-          series: <ChartSeries>[
-            // Initialize line series
-
-            // FastLineSeries<ChartData, double>(
-            LineSeries<ChartData, int>(
-              // SplineAreaSeries<ChartData, int>(
-              // BubbleSeries<ChartData, double>(
-              // StepAreaSeries<ChartData, double>(
-              // StepLineSeries<ChartData, double>(
-              dataSource: recentrates,
-
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-              xAxisName: "Time (a.u.)",
-              yAxisName: "Flow Rate (L/min)",
-              animationDuration: 800,
-              color: const Color.fromARGB(255, 255, 0, 0),
-              // markerSettings: const MarkerSettings(isVisible: true),
+        child: Column(
+          children: [
+            Text(
+              "Sliding Window (${nPoints.value})",
             ),
-          ],
-        ),
-        //     ),
-
-        //     // const Spacer(),
-        //   ],
-        // )
-      ),
-    );
-  }
-}
-
-class _WaterLevelPageState extends State<WaterLevelPage> {
-  StreamSubscription<double>? _waterLevelSubscription;
-  @override
-  void initState() {
-    super.initState();
-    _waterLevelSubscription =
-        manager.waterLevelStream.listen(_waterLevelListener);
-  }
-
-  @override
-  void dispose() {
-    _waterLevelSubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> waterlevels = [];
-  List<ChartData> recentlevels = [];
-  int lengthdata = 200;
-
-  void _waterLevelListener(double level) {
-    waterlevels.add(ChartData(waterlevels.length, level));
-    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: SizedBox(
-        // child: Column(
-        // children: [
-        // const Spacer(),
-        // Container(
-        //   margin: const EdgeInsets.all(20),
-        //   child: Row(
-        //     children: [
-        //       const Spacer(),
-        //       Column(
-        //         children: [
-        //           const Text(
-        //             'Water Level (%): ',
-        //           ),
-        //           Text(
-        //             waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
-        //                 'Not Available',
-        //             style: Theme.of(context).textTheme.headlineMedium,
-        //           ),
-        //         ],
-        //       ),
-        //       const Spacer(),
-        //     ],
-        //   ),
-        // ),
-
-        // const Spacer(),
-        // Container(
-        // margin: const EdgeInsets.all(20),
-        child: SfCartesianChart(
-          // Initialize category axis
-          // title: ChartTitle(
-          //     text: 'Water Level Data (%)',
-          //     borderWidth: 2,
-          //     // Aligns the chart title to left
-          //     alignment: ChartAlignment.center,
-          //     textStyle: const TextStyle(
-          //       color: Color.fromARGB(255, 5, 0, 101),
-          //     )),
-          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-          primaryYAxis: NumericAxis(
-              title: AxisTitle(text: 'Water Level (%)'),
-              labelAlignment: LabelAlignment.center),
-          series: <ChartSeries>[
-            // Initialize line series
-
-            // FastLineSeries<ChartData, double>(
-            LineSeries<ChartData, int>(
-              // SplineAreaSeries<ChartData, int>(
-              // BubbleSeries<ChartData, double>(
-              // StepAreaSeries<ChartData, double>(
-              // StepLineSeries<ChartData, double>(
-              dataSource: recentlevels,
-
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-              xAxisName: "Time (a.u.)",
-              yAxisName: "Water Level (%)",
-              animationDuration: 800,
-              color: const Color.fromARGB(255, 13, 0, 255),
-              // markerSettings: const MarkerSettings(isVisible: true),
+            Slider(
+              value: nPoints.value.toDouble(),
+              max: 1000,
+              min: 50,
+              label: "Sliding Window (${nPoints.value})",
+              onChanged: (value) {
+                nPoints.value = value.toInt();
+              },
             ),
-          ],
-        ),
-        // ),
-
-        // const Spacer(),
-        // ],
-        // )
-      ),
-    );
-  }
-}
-
-class _HumidityPageState extends State<HumidityPage> {
-  StreamSubscription<double>? _humiditySubscription;
-  @override
-  void initState() {
-    super.initState();
-    _humiditySubscription = manager.humidityStream.listen(_humidityListener);
-  }
-
-  @override
-  void dispose() {
-    _humiditySubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> humidities = [];
-  List<ChartData> recenthumids = [];
-  int lengthdata = 200;
-
-  void _humidityListener(double humidity) {
-    humidities.add(ChartData(humidities.length, humidity));
-    recenthumids = humidities.sublist(max(0, humidities.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: SizedBox(
-        //   child: Row(
-        // children: [
-        //   const Spacer(),
-        //   Container(
-        //     margin: const EdgeInsets.all(20),
-        //     child: Row(
-        //       children: [
-        //         const Spacer(),
-        //         Column(
-        //           children: [
-        //             const Text(
-        //               'Humidity (%): ',
-        //             ),
-        //             Text(
-        //               humidities.lastOrNull?.y.toStringAsFixed(2) ??
-        //                   'Not Available',
-        //               style: Theme.of(context).textTheme.headlineMedium,
-        //             ),
-        //           ],
-        //         ),
-        //         const Spacer(),
-        //       ],
-        //     ),
-        //   ),
-
-        //   const Spacer(),
-        // Container(
-        // margin: const EdgeInsets.all(20),
-        child: SfCartesianChart(
-          // Initialize category axis
-          // title: ChartTitle(
-          //     text: 'Humidity Data (%)',
-          //     borderWidth: 2,
-          //     // Aligns the chart title to left
-          //     alignment: ChartAlignment.center,
-          //     textStyle: const TextStyle(
-          //       color: Color.fromARGB(255, 5, 0, 101),
-          //     )),
-          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-          primaryYAxis: NumericAxis(
-              title: AxisTitle(text: 'Humidity (%)'),
-              labelAlignment: LabelAlignment.center),
-          series: <ChartSeries>[
-            // Initialize line series
-
-            // FastLineSeries<ChartData, double>(
-            LineSeries<ChartData, int>(
-              // SplineAreaSeries<ChartData, int>(
-              // BubbleSeries<ChartData, double>(
-              // StepAreaSeries<ChartData, double>(
-              // StepLineSeries<ChartData, double>(
-              dataSource: recenthumids,
-
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y,
-              xAxisName: "Time (a.u.)",
-              yAxisName: "Humidity (%)",
-              animationDuration: 800,
-              color: const Color.fromARGB(255, 0, 255, 51),
-              // markerSettings: const MarkerSettings(isVisible: true),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ChartWidget(
+                showTitle: false,
+                title: 'Flow Rate Data (%)',
+                data: recentrates,
+                axisName: 'Flow Rate (L/min)',
+                color: const Color.fromARGB(255, 255, 0, 0),
+              ),
             ),
           ],
         ),
       ),
-
-      // const Spacer(),
-      // ],
-      // )
-      // ),
     );
   }
 }
 
-class _MetricsPageState extends State<MetricsPage> {
+class WaterLevelPage extends HookConsumerWidget {
+  const WaterLevelPage({required this.title, super.key});
+  final String title;
+
   @override
-  Widget build(BuildContext context) {
-    AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(widget.title),
-    );
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nPoints = useState(200);
+    final recentlevels = ref.watch(
+        filteredDataProvider(SourceKind.waterLevel, nPoints: nPoints.value));
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
-      body: const Center(
-          child: Column(
+      body: Column(
         children: [
-          Spacer(),
-          Text('This is the metrics page. Put the real farm metrics here'),
-          Spacer(),
-          // Container(
-          //   margin: EdgeInsets.all(10),
-          //   child: Row(children: [
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const MyHomePage(
-          //                 title: 'Irrigation Modernization Display'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Home'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const DataPage(title: 'Data'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Data'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) =>
-          //                 const ResearchPage(title: 'Research'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Research'),
-          //     ),
-          //     Spacer(),
-          //   ]),
-          // ),
-          Spacer(),
+          Text(
+            "Sliding Window (${nPoints.value})",
+          ),
+          Slider(
+            value: nPoints.value.toDouble(),
+            max: 1000,
+            min: 50,
+            label: "Sliding Window (${nPoints.value})",
+            onChanged: (value) {
+              nPoints.value = value.toInt();
+            },
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ChartWidget(
+              showTitle: false,
+              title: 'Water Level Data (%)',
+              data: recentlevels,
+              axisName: "Water Level (%)",
+              color: const Color.fromARGB(255, 13, 0, 255),
+            ),
+          ),
         ],
-      )),
+      ),
+    );
+  }
+}
+
+class HumidityPage extends HookConsumerWidget {
+  const HumidityPage({required this.title, super.key});
+  final String title;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nPoints = useState(200);
+    final recenthumids = ref.watch(
+        filteredDataProvider(SourceKind.humidity, nPoints: nPoints.value));
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(title),
+      ),
+      body: Column(
+        children: [
+          Text(
+            "Sliding Window (${nPoints.value})",
+          ),
+          Slider(
+            value: nPoints.value.toDouble(),
+            max: 1000,
+            min: 50,
+            label: "Sliding Window (${nPoints.value})",
+            onChanged: (value) {
+              nPoints.value = value.toInt();
+            },
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ChartWidget(
+              showTitle: false,
+              title: 'Humidity Data (%)',
+              data: recenthumids,
+              axisName: 'Humidity (%)',
+              color: const Color.fromARGB(255, 9, 255, 0),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
