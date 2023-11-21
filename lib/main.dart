@@ -12,7 +12,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'realsensor2.dart';
 // import 'package:usb_serial/usb_serial.dart';
 
-const isonpi = false;
+const isonpi = true;
 final manager = isonpi ? RealSensor2() : DummySensor();
 
 void main() {
