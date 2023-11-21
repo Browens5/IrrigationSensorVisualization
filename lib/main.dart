@@ -345,269 +345,74 @@ class _DataPageState extends State<DataPage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: Column(
+          child: Row(
         children: [
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Spacer(),
-                Column(
-                  children: [
-                    const Text(
-                      'Water level: ',
-                    ),
-                    Text(
-                      waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
-                          'Not Available',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const Text(
-                      'Flow Rate: ',
-                    ),
-                    Text(
-                      flowrates.isEmpty
-                          ? 'Not Available'
-                          : "${(flowrates.lastOrNull ?? ChartData(0, 0.0)).y.toStringAsFixed(2)} L/s",
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Column(
-                  children: [
-                    const Text(
-                      'Humidity (%):',
-                    ),
-                    Text(
-                      humidities.lastOrNull?.y.toStringAsFixed(2) ??
-                          'Not Available',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
+          // const Spacer(),
+          // Container(
+          //   margin: const EdgeInsets.all(20),
+          //   child: Row(
+          //     children: [
+          //       const Spacer(),
+          //       Column(
+          //         children: [
+          //           const Text(
+          //             'Water level: ',
+          //           ),
+          //           Text(
+          //             waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
+          //                 'Not Available',
+          //             style: Theme.of(context).textTheme.headlineMedium,
+          //           ),
+          //         ],
+          //       ),
+          //       Column(
+          //         children: [
+          //           const Text(
+          //             'Flow Rate: ',
+          //           ),
+          //           Text(
+          //             flowrates.isEmpty
+          //                 ? 'Not Available'
+          //                 : "${(flowrates.lastOrNull ?? ChartData(0, 0.0)).y.toStringAsFixed(2)} L/s",
+          //             style: Theme.of(context).textTheme.headlineMedium,
+          //           ),
+          //         ],
+          //       ),
+          //       const Spacer(),
+          //       Column(
+          //         children: [
+          //           const Text(
+          //             'Humidity (%):',
+          //           ),
+          //           Text(
+          //             humidities.lastOrNull?.y.toStringAsFixed(2) ??
+          //                 'Not Available',
+          //             style: Theme.of(context).textTheme.headlineMedium,
+          //           ),
+          //         ],
+          //       ),
+          //       const Spacer(),
+          //     ],
+          //   ),
+          // ),
 
           // const Spacer(),
-          Container(
-              margin: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  Container(
-                    margin: const EdgeInsets.all(20),
-                    child: SfCartesianChart(
-                      // Initialize category axis
-                      title: ChartTitle(
-                          text: 'Water Level Data (%)',
-                          borderWidth: 2,
-                          // Aligns the chart title to left
-                          alignment: ChartAlignment.center,
-                          textStyle: const TextStyle(
-                            color: Color.fromARGB(255, 5, 0, 101),
-                          )),
-                      primaryXAxis:
-                          NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-                      primaryYAxis: NumericAxis(
-                          title: AxisTitle(text: 'Water Level (%)'),
-                          labelAlignment: LabelAlignment.center),
-                      series: <ChartSeries>[
-                        // Initialize line series
-
-                        // FastLineSeries<ChartData, double>(
-                        LineSeries<ChartData, int>(
-                          // SplineAreaSeries<ChartData, int>(
-                          // BubbleSeries<ChartData, double>(
-                          // StepAreaSeries<ChartData, double>(
-                          // StepLineSeries<ChartData, double>(
-                          dataSource: recentlevels,
-
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y,
-                          xAxisName: "Time (a.u.)",
-                          yAxisName: "Water Level (%)",
-                          animationDuration: 800,
-                          color: const Color.fromARGB(255, 13, 0, 255),
-                          // markerSettings: const MarkerSettings(isVisible: true),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(20),
-                    child: SfCartesianChart(
-                      // Initialize category axis
-                      title: ChartTitle(
-                          text: 'Humidity Data (%)',
-                          borderWidth: 2,
-                          // Aligns the chart title to left
-                          alignment: ChartAlignment.center,
-                          textStyle: const TextStyle(
-                            color: Color.fromARGB(255, 5, 0, 101),
-                          )),
-                      primaryXAxis:
-                          NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-                      primaryYAxis: NumericAxis(
-                          title: AxisTitle(text: 'Humidity (%)'),
-                          labelAlignment: LabelAlignment.center),
-                      series: <ChartSeries>[
-                        // Initialize line series
-
-                        // FastLineSeries<ChartData, double>(
-                        LineSeries<ChartData, int>(
-                          // SplineAreaSeries<ChartData, int>(
-                          // BubbleSeries<ChartData, double>(
-                          // StepAreaSeries<ChartData, double>(
-                          // StepLineSeries<ChartData, double>(
-                          dataSource: recenthumids,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y,
-                          xAxisName: "Time (a.u.)",
-                          yAxisName: "Humidity (%)",
-                          animationDuration: 800,
-                          color: const Color.fromARGB(255, 9, 255, 0),
-                          // markerSettings: const MarkerSettings(isVisible: true),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                ],
-              )),
-
-          const Spacer(),
-          // Text('This is the data page. Put the data collected here'),
-          // Spacer(),
           // Container(
-          //   margin: EdgeInsets.all(10),
-          //   child: Row(children: [
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const MyHomePage(
-          //                 title: 'Irrigation Modernization Display'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Home'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) => const MetricsPage(title: 'Metrics'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Metrics'),
-          //     ),
-          //     Spacer(),
-          //     ElevatedButton(
-          //       style: style,
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           MaterialPageRoute(
-          //             builder: (context) =>
-          //                 const ResearchPage(title: 'Research'),
-          //           ),
-          //         );
-          //       },
-          //       child: const Text('Research'),
-          //     ),
-          //     Spacer(),
-          //   ]),
-          // ),
-          // Spacer(),
-        ],
-      )),
-    );
-  }
-}
-
-class _FlowRatePageState extends State<FlowRatePage> {
-  StreamSubscription<double>? _flowRateSubscription;
-  @override
-  void initState() {
-    super.initState();
-    _flowRateSubscription = manager.flowRateStream.listen(_flowRateListener);
-  }
-
-  @override
-  void dispose() {
-    _flowRateSubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> flowrates = [];
-  List<ChartData> recentrates = [];
-  int lengthdata = 200;
-
-  void _flowRateListener(double rate) {
-    flowrates.add(ChartData(flowrates.length, rate));
-    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: Column(
-        children: [
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Spacer(),
-                Column(
-                  children: [
-                    const Text(
-                      'Flow Rate: ',
-                    ),
-                    Text(
-                      flowrates.lastOrNull?.y.toStringAsFixed(2) ??
-                          'Not Available',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
-
-          const Spacer(),
+          //     margin: const EdgeInsets.all(20),
+          //     child: Row(
+          //       children: [
+          // const Spacer(),
           Container(
             margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
               // Initialize category axis
               title: ChartTitle(
-                  text: 'Flow Rate Data (L/min)',
+                  text: 'Flow Rate Data (%)',
                   borderWidth: 2,
                   // Aligns the chart title to left
                   alignment: ChartAlignment.center,
                   textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
+                    color: Color.fromARGB(255, 101, 0, 0),
                   )),
               primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
               primaryYAxis: NumericAxis(
@@ -635,75 +440,6 @@ class _FlowRatePageState extends State<FlowRatePage> {
               ],
             ),
           ),
-
-          // const Spacer(),
-        ],
-      )),
-    );
-  }
-}
-
-class _WaterLevelPageState extends State<WaterLevelPage> {
-  StreamSubscription<double>? _waterLevelSubscription;
-  @override
-  void initState() {
-    super.initState();
-    _waterLevelSubscription =
-        manager.waterLevelStream.listen(_waterLevelListener);
-  }
-
-  @override
-  void dispose() {
-    _waterLevelSubscription?.cancel();
-    super.dispose();
-  }
-
-  List<ChartData> waterlevels = [];
-  List<ChartData> recentlevels = [];
-  int lengthdata = 200;
-
-  void _waterLevelListener(double level) {
-    waterlevels.add(ChartData(waterlevels.length, level));
-    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // final ButtonStyle style =
-    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: Column(
-        children: [
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Spacer(),
-                Column(
-                  children: [
-                    const Text(
-                      'Water Level (%): ',
-                    ),
-                    Text(
-                      waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
-                          'Not Available',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-              ],
-            ),
-          ),
-
-          const Spacer(),
           Container(
             margin: const EdgeInsets.all(20),
             child: SfCartesianChart(
@@ -742,10 +478,313 @@ class _WaterLevelPageState extends State<WaterLevelPage> {
               ],
             ),
           ),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: SfCartesianChart(
+              // Initialize category axis
+              title: ChartTitle(
+                  text: 'Humidity Data (%)',
+                  borderWidth: 2,
+                  // Aligns the chart title to left
+                  alignment: ChartAlignment.center,
+                  textStyle: const TextStyle(
+                    color: Color.fromARGB(255, 5, 0, 101),
+                  )),
+              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+              primaryYAxis: NumericAxis(
+                  title: AxisTitle(text: 'Humidity (%)'),
+                  labelAlignment: LabelAlignment.center),
+              series: <ChartSeries>[
+                // Initialize line series
 
-          // const Spacer(),
+                // FastLineSeries<ChartData, double>(
+                LineSeries<ChartData, int>(
+                  // SplineAreaSeries<ChartData, int>(
+                  // BubbleSeries<ChartData, double>(
+                  // StepAreaSeries<ChartData, double>(
+                  // StepLineSeries<ChartData, double>(
+                  dataSource: recenthumids,
+                  xValueMapper: (ChartData data, _) => data.x,
+                  yValueMapper: (ChartData data, _) => data.y,
+                  xAxisName: "Time (a.u.)",
+                  yAxisName: "Humidity (%)",
+                  animationDuration: 800,
+                  color: const Color.fromARGB(255, 9, 255, 0),
+                  // markerSettings: const MarkerSettings(isVisible: true),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
         ],
       )),
+
+      // const Spacer(),
+      // Text('This is the data page. Put the data collected here'),
+      // Spacer(),
+      // Container(
+      //   margin: EdgeInsets.all(10),
+      //   child: Row(children: [
+      //     Spacer(),
+      //     ElevatedButton(
+      //       style: style,
+      //       onPressed: () {
+      //         Navigator.of(context).push(
+      //           MaterialPageRoute(
+      //             builder: (context) => const MyHomePage(
+      //                 title: 'Irrigation Modernization Display'),
+      //           ),
+      //         );
+      //       },
+      //       child: const Text('Home'),
+      //     ),
+      //     Spacer(),
+      //     ElevatedButton(
+      //       style: style,
+      //       onPressed: () {
+      //         Navigator.of(context).push(
+      //           MaterialPageRoute(
+      //             builder: (context) => const MetricsPage(title: 'Metrics'),
+      //           ),
+      //         );
+      //       },
+      //       child: const Text('Metrics'),
+      //     ),
+      //     Spacer(),
+      //     ElevatedButton(
+      //       style: style,
+      //       onPressed: () {
+      //         Navigator.of(context).push(
+      //           MaterialPageRoute(
+      //             builder: (context) =>
+      //                 const ResearchPage(title: 'Research'),
+      //           ),
+      //         );
+      //       },
+      //       child: const Text('Research'),
+      //     ),
+      //     Spacer(),
+      //   ]),
+      // ),
+      // Spacer(),
+      // ],
+      // )
+      // ),
+    );
+  }
+}
+
+class _FlowRatePageState extends State<FlowRatePage> {
+  StreamSubscription<double>? _flowRateSubscription;
+  @override
+  void initState() {
+    super.initState();
+    _flowRateSubscription = manager.flowRateStream.listen(_flowRateListener);
+  }
+
+  @override
+  void dispose() {
+    _flowRateSubscription?.cancel();
+    super.dispose();
+  }
+
+  List<ChartData> flowrates = [];
+  List<ChartData> recentrates = [];
+  int lengthdata = 200;
+
+  void _flowRateListener(double rate) {
+    flowrates.add(ChartData(flowrates.length, rate));
+    recentrates = flowrates.sublist(max(0, flowrates.length - lengthdata));
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: SizedBox(
+        // child: Column(
+        // children: [
+        // const Spacer(),
+        // Container(
+        //   margin: const EdgeInsets.all(20),
+        //   child: Row(
+        //     children: [
+        //       const Spacer(),
+        //       Column(
+        //         children: [
+        //           const Text(
+        //             'Flow Rate: ',
+        //           ),
+        //           Text(
+        //             flowrates.lastOrNull?.y.toStringAsFixed(2) ??
+        //                 'Not Available',
+        //             style: Theme.of(context).textTheme.headlineMedium,
+        //           ),
+        //         ],
+        //       ),
+        //       const Spacer(),
+        //     ],
+        //   ),
+        // ),
+
+        // const Spacer(),
+        // Container(
+        // margin: const EdgeInsets.all(20),
+        child: SfCartesianChart(
+          // Initialize category axis
+          // title: ChartTitle(
+          //     text: 'Flow Rate Data (L/min)',
+          //     borderWidth: 2,
+          //     // Aligns the chart title to left
+          //     alignment: ChartAlignment.center,
+          //     textStyle: const TextStyle(
+          //       color: Color.fromARGB(255, 5, 0, 101),
+          //     )),
+          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+          primaryYAxis: NumericAxis(
+              title: AxisTitle(text: 'Flow Rate (L/min)'),
+              labelAlignment: LabelAlignment.center),
+          series: <ChartSeries>[
+            // Initialize line series
+
+            // FastLineSeries<ChartData, double>(
+            LineSeries<ChartData, int>(
+              // SplineAreaSeries<ChartData, int>(
+              // BubbleSeries<ChartData, double>(
+              // StepAreaSeries<ChartData, double>(
+              // StepLineSeries<ChartData, double>(
+              dataSource: recentrates,
+
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y,
+              xAxisName: "Time (a.u.)",
+              yAxisName: "Flow Rate (L/min)",
+              animationDuration: 800,
+              color: const Color.fromARGB(255, 13, 0, 255),
+              // markerSettings: const MarkerSettings(isVisible: true),
+            ),
+          ],
+        ),
+        //     ),
+
+        //     // const Spacer(),
+        //   ],
+        // )
+      ),
+    );
+  }
+}
+
+class _WaterLevelPageState extends State<WaterLevelPage> {
+  StreamSubscription<double>? _waterLevelSubscription;
+  @override
+  void initState() {
+    super.initState();
+    _waterLevelSubscription =
+        manager.waterLevelStream.listen(_waterLevelListener);
+  }
+
+  @override
+  void dispose() {
+    _waterLevelSubscription?.cancel();
+    super.dispose();
+  }
+
+  List<ChartData> waterlevels = [];
+  List<ChartData> recentlevels = [];
+  int lengthdata = 200;
+
+  void _waterLevelListener(double level) {
+    waterlevels.add(ChartData(waterlevels.length, level));
+    recentlevels = waterlevels.sublist(max(0, waterlevels.length - lengthdata));
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final ButtonStyle style =
+    //     ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 30));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: SizedBox(
+        // child: Column(
+        // children: [
+        // const Spacer(),
+        // Container(
+        //   margin: const EdgeInsets.all(20),
+        //   child: Row(
+        //     children: [
+        //       const Spacer(),
+        //       Column(
+        //         children: [
+        //           const Text(
+        //             'Water Level (%): ',
+        //           ),
+        //           Text(
+        //             waterlevels.lastOrNull?.y.toStringAsFixed(2) ??
+        //                 'Not Available',
+        //             style: Theme.of(context).textTheme.headlineMedium,
+        //           ),
+        //         ],
+        //       ),
+        //       const Spacer(),
+        //     ],
+        //   ),
+        // ),
+
+        // const Spacer(),
+        // Container(
+        // margin: const EdgeInsets.all(20),
+        child: SfCartesianChart(
+          // Initialize category axis
+          // title: ChartTitle(
+          //     text: 'Water Level Data (%)',
+          //     borderWidth: 2,
+          //     // Aligns the chart title to left
+          //     alignment: ChartAlignment.center,
+          //     textStyle: const TextStyle(
+          //       color: Color.fromARGB(255, 5, 0, 101),
+          //     )),
+          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+          primaryYAxis: NumericAxis(
+              title: AxisTitle(text: 'Water Level (%)'),
+              labelAlignment: LabelAlignment.center),
+          series: <ChartSeries>[
+            // Initialize line series
+
+            // FastLineSeries<ChartData, double>(
+            LineSeries<ChartData, int>(
+              // SplineAreaSeries<ChartData, int>(
+              // BubbleSeries<ChartData, double>(
+              // StepAreaSeries<ChartData, double>(
+              // StepLineSeries<ChartData, double>(
+              dataSource: recentlevels,
+
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y,
+              xAxisName: "Time (a.u.)",
+              yAxisName: "Water Level (%)",
+              animationDuration: 800,
+              color: const Color.fromARGB(255, 13, 0, 255),
+              // markerSettings: const MarkerSettings(isVisible: true),
+            ),
+          ],
+        ),
+        // ),
+
+        // const Spacer(),
+        // ],
+        // )
+      ),
     );
   }
 }
@@ -783,75 +822,76 @@ class _HumidityPageState extends State<HumidityPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-          child: Column(
-        children: [
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                const Spacer(),
-                Column(
-                  children: [
-                    const Text(
-                      'Humidity (%): ',
-                    ),
-                    Text(
-                      humidities.lastOrNull?.y.toStringAsFixed(2) ??
-                          'Not Available',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-              ],
+      body: SizedBox(
+        //   child: Row(
+        // children: [
+        //   const Spacer(),
+        //   Container(
+        //     margin: const EdgeInsets.all(20),
+        //     child: Row(
+        //       children: [
+        //         const Spacer(),
+        //         Column(
+        //           children: [
+        //             const Text(
+        //               'Humidity (%): ',
+        //             ),
+        //             Text(
+        //               humidities.lastOrNull?.y.toStringAsFixed(2) ??
+        //                   'Not Available',
+        //               style: Theme.of(context).textTheme.headlineMedium,
+        //             ),
+        //           ],
+        //         ),
+        //         const Spacer(),
+        //       ],
+        //     ),
+        //   ),
+
+        //   const Spacer(),
+        // Container(
+        // margin: const EdgeInsets.all(20),
+        child: SfCartesianChart(
+          // Initialize category axis
+          // title: ChartTitle(
+          //     text: 'Humidity Data (%)',
+          //     borderWidth: 2,
+          //     // Aligns the chart title to left
+          //     alignment: ChartAlignment.center,
+          //     textStyle: const TextStyle(
+          //       color: Color.fromARGB(255, 5, 0, 101),
+          //     )),
+          primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
+          primaryYAxis: NumericAxis(
+              title: AxisTitle(text: 'Humidity (%)'),
+              labelAlignment: LabelAlignment.center),
+          series: <ChartSeries>[
+            // Initialize line series
+
+            // FastLineSeries<ChartData, double>(
+            LineSeries<ChartData, int>(
+              // SplineAreaSeries<ChartData, int>(
+              // BubbleSeries<ChartData, double>(
+              // StepAreaSeries<ChartData, double>(
+              // StepLineSeries<ChartData, double>(
+              dataSource: recenthumids,
+
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y,
+              xAxisName: "Time (a.u.)",
+              yAxisName: "Humidity (%)",
+              animationDuration: 800,
+              color: const Color.fromARGB(255, 13, 0, 255),
+              // markerSettings: const MarkerSettings(isVisible: true),
             ),
-          ),
+          ],
+        ),
+      ),
 
-          const Spacer(),
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: SfCartesianChart(
-              // Initialize category axis
-              title: ChartTitle(
-                  text: 'Humidity Data (%)',
-                  borderWidth: 2,
-                  // Aligns the chart title to left
-                  alignment: ChartAlignment.center,
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 5, 0, 101),
-                  )),
-              primaryXAxis: NumericAxis(title: AxisTitle(text: 'Time (a.u.)')),
-              primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: 'Humidity (%)'),
-                  labelAlignment: LabelAlignment.center),
-              series: <ChartSeries>[
-                // Initialize line series
-
-                // FastLineSeries<ChartData, double>(
-                LineSeries<ChartData, int>(
-                  // SplineAreaSeries<ChartData, int>(
-                  // BubbleSeries<ChartData, double>(
-                  // StepAreaSeries<ChartData, double>(
-                  // StepLineSeries<ChartData, double>(
-                  dataSource: recenthumids,
-
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  xAxisName: "Time (a.u.)",
-                  yAxisName: "Humidity (%)",
-                  animationDuration: 800,
-                  color: const Color.fromARGB(255, 13, 0, 255),
-                  // markerSettings: const MarkerSettings(isVisible: true),
-                ),
-              ],
-            ),
-          ),
-
-          // const Spacer(),
-        ],
-      )),
+      // const Spacer(),
+      // ],
+      // )
+      // ),
     );
   }
 }
