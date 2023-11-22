@@ -256,6 +256,13 @@ class FlowRatePage extends HookConsumerWidget {
       body: SizedBox(
         child: Column(
           children: [
+            // Switch(
+            //   value: ref.watch(sourceProvider) == Source.dummy,
+            //   onChanged: (b) {
+            //     ref.read(sourceProvider.notifier).state =
+            //         b ? Source.dummy : Source.real;
+            //   },
+            // ),
             Text(
               "Sliding Window (${nPoints.value})",
             ),
