@@ -184,58 +184,85 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class DataPage extends ConsumerWidget {
+class DataPage extends HookConsumerWidget {
   const DataPage({required this.title, super.key});
   final String title;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final recentrates = ref.watch(filteredDataProvider(SourceKind.flowRate));
-    final recentlevels = ref.watch(filteredDataProvider(SourceKind.waterLevel));
-    final recenthumids = ref.watch(filteredDataProvider(SourceKind.humidity));
+    final nPoints = useState(200);
+    final recentrates = ref.watch(
+        filteredDataProvider(SourceKind.flowRate, nPoints: nPoints.value));
+    final recentlevels = ref.watch(
+        filteredDataProvider(SourceKind.waterLevel, nPoints: nPoints.value));
+    final recenthumids = ref.watch(
+        filteredDataProvider(SourceKind.humidity, nPoints: nPoints.value));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: Center(
-          child: Row(
+      body: Column(
         children: [
           Expanded(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-              child: ChartWidget(
-                title: 'Flow Rate Data (%)',
-                data: recentrates,
-                axisName: 'Flow Rate (L/min)',
-                color: const Color.fromARGB(255, 255, 0, 0),
+              child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+                  child: ChartWidget(
+                    title: 'Flow Rate Data (%)',
+                    data: recentrates,
+                    axisName: 'Flow Rate (L/min)',
+                    color: const Color.fromARGB(255, 255, 0, 0),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-              child: ChartWidget(
-                title: 'Water Level Data (%)',
-                data: recentlevels,
-                axisName: "Water Level (%)",
-                color: const Color.fromARGB(255, 13, 0, 255),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+                  child: ChartWidget(
+                    title: 'Water Level Data (%)',
+                    data: recentlevels,
+                    axisName: "Water Level (%)",
+                    color: const Color.fromARGB(255, 13, 0, 255),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            // flex: 2,
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-              child: ChartWidget(
-                title: 'Humidity Data (%)',
-                data: recenthumids,
-                axisName: 'Humidity (%)',
-                color: const Color.fromARGB(255, 9, 255, 0),
+              Expanded(
+                // flex: 2,
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+                  child: ChartWidget(
+                    title: 'Humidity Data (%)',
+                    data: recenthumids,
+                    axisName: 'Humidity (%)',
+                    color: const Color.fromARGB(255, 9, 255, 0),
+                  ),
+                ),
               ),
+            ],
+          )),
+          SizedBox(
+            height: 70,
+            child: Column(
+              children: [
+                Slider(
+                  value: nPoints.value.toDouble(),
+                  max: 1000,
+                  min: 50,
+                  label: "Window Size (${nPoints.value})",
+                  onChanged: (value) {
+                    nPoints.value = value.toInt();
+                  },
+                ),
+                Text(
+                  "Window Size (${nPoints.value})",
+                ),
+              ],
             ),
           ),
         ],
-      )),
+      ),
     );
   }
 }
@@ -263,18 +290,6 @@ class FlowRatePage extends HookConsumerWidget {
             //         b ? Source.dummy : Source.real;
             //   },
             // ),
-            Text(
-              "Sliding Window (${nPoints.value})",
-            ),
-            Slider(
-              value: nPoints.value.toDouble(),
-              max: 1000,
-              min: 50,
-              label: "Sliding Window (${nPoints.value})",
-              onChanged: (value) {
-                nPoints.value = value.toInt();
-              },
-            ),
             const SizedBox(height: 20),
             Expanded(
               child: ChartWidget(
@@ -284,6 +299,19 @@ class FlowRatePage extends HookConsumerWidget {
                 axisName: 'Flow Rate (L/min)',
                 color: const Color.fromARGB(255, 255, 0, 0),
               ),
+            ),
+
+            Slider(
+              value: nPoints.value.toDouble(),
+              max: 1000,
+              min: 50,
+              label: "Window Size (${nPoints.value})",
+              onChanged: (value) {
+                nPoints.value = value.toInt();
+              },
+            ),
+            Text(
+              "Window Size (${nPoints.value})",
             ),
           ],
         ),
@@ -309,18 +337,6 @@ class WaterLevelPage extends HookConsumerWidget {
       ),
       body: Column(
         children: [
-          Text(
-            "Sliding Window (${nPoints.value})",
-          ),
-          Slider(
-            value: nPoints.value.toDouble(),
-            max: 1000,
-            min: 50,
-            label: "Sliding Window (${nPoints.value})",
-            onChanged: (value) {
-              nPoints.value = value.toInt();
-            },
-          ),
           const SizedBox(height: 20),
           Expanded(
             child: ChartWidget(
@@ -330,6 +346,18 @@ class WaterLevelPage extends HookConsumerWidget {
               axisName: "Water Level (%)",
               color: const Color.fromARGB(255, 13, 0, 255),
             ),
+          ),
+          Slider(
+            value: nPoints.value.toDouble(),
+            max: 1000,
+            min: 50,
+            label: "Window Size (${nPoints.value})",
+            onChanged: (value) {
+              nPoints.value = value.toInt();
+            },
+          ),
+          Text(
+            "Window Size (${nPoints.value})",
           ),
         ],
       ),
@@ -353,18 +381,6 @@ class HumidityPage extends HookConsumerWidget {
       ),
       body: Column(
         children: [
-          Text(
-            "Sliding Window (${nPoints.value})",
-          ),
-          Slider(
-            value: nPoints.value.toDouble(),
-            max: 1000,
-            min: 50,
-            label: "Sliding Window (${nPoints.value})",
-            onChanged: (value) {
-              nPoints.value = value.toInt();
-            },
-          ),
           const SizedBox(height: 20),
           Expanded(
             child: ChartWidget(
@@ -374,6 +390,18 @@ class HumidityPage extends HookConsumerWidget {
               axisName: 'Humidity (%)',
               color: const Color.fromARGB(255, 9, 255, 0),
             ),
+          ),
+          Slider(
+            value: nPoints.value.toDouble(),
+            max: 1000,
+            min: 50,
+            label: "Window Size (${nPoints.value})",
+            onChanged: (value) {
+              nPoints.value = value.toInt();
+            },
+          ),
+          Text(
+            "Window Size (${nPoints.value})",
           ),
         ],
       ),
