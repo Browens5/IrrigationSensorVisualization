@@ -128,11 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const DataPage(title: 'Data'),
+                        builder: (context) => const DataPage(title: 'All Data'),
                       ),
                     );
                   },
-                  child: const Text('Data'),
+                  child: const Text('All Data'),
                 ),
                 const Spacer(),
                 ElevatedButton(
@@ -248,7 +248,7 @@ class DataPage extends HookConsumerWidget {
               children: [
                 Slider(
                   value: nPoints.value.toDouble(),
-                  max: 1000,
+                  max: 2000,
                   min: 50,
                   label: "Window Size (${nPoints.value})",
                   onChanged: (value) {
@@ -303,7 +303,7 @@ class FlowRatePage extends HookConsumerWidget {
 
             Slider(
               value: nPoints.value.toDouble(),
-              max: 1000,
+              max: 2000,
               min: 50,
               label: "Window Size (${nPoints.value})",
               onChanged: (value) {
@@ -349,7 +349,7 @@ class WaterLevelPage extends HookConsumerWidget {
           ),
           Slider(
             value: nPoints.value.toDouble(),
-            max: 1000,
+            max: 2000,
             min: 50,
             label: "Window Size (${nPoints.value})",
             onChanged: (value) {
@@ -393,7 +393,7 @@ class HumidityPage extends HookConsumerWidget {
           ),
           Slider(
             value: nPoints.value.toDouble(),
-            max: 1000,
+            max: 2000,
             min: 50,
             label: "Window Size (${nPoints.value})",
             onChanged: (value) {
