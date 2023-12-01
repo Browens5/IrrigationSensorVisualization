@@ -167,11 +167,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) =>
-                            const HumidityPage(title: 'Humidity'),
+                            const HumidityPage(title: 'Moisture Level'),
                       ),
                     );
                   },
-                  child: const Text('Humidity'),
+                  child: const Text('Moisture Level'),
                 ),
                 const Spacer(),
               ]),
@@ -233,9 +233,9 @@ class DataPage extends HookConsumerWidget {
                 child: Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 30),
                   child: ChartWidget(
-                    title: 'Humidity Data (%)',
+                    title: 'Moisture Data (%)',
                     data: recenthumids,
-                    axisName: 'Humidity (%)',
+                    axisName: 'Moisture (%)',
                     color: const Color.fromARGB(255, 9, 255, 0),
                   ),
                 ),
@@ -385,9 +385,9 @@ class HumidityPage extends HookConsumerWidget {
           Expanded(
             child: ChartWidget(
               showTitle: false,
-              title: 'Humidity Data (%)',
+              title: 'Moisture Data (%)',
               data: recenthumids,
-              axisName: 'Humidity (%)',
+              axisName: 'Moisture (%)',
               color: const Color.fromARGB(255, 9, 255, 0),
             ),
           ),
