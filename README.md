@@ -1,4 +1,9 @@
 # sensorvis
+If there are any questions, please feel free to contact me:
+```
+browens515@gmail.com
+(208)380-6882
+```
 
 To connect to the raspberrypi displays, use the provided router and connect to the PiRouter network with a computer. Turn on one pi display at a time and use the following command in a terminal to ssh to it:
 ```
