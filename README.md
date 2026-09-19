@@ -1,45 +1,21 @@
-# sensorvis
-If there are any questions, please feel free to contact me:
-```
-browens515@gmail.com
-(208)380-6882
-```
+# Irrigation Sensor Visualization
 
-To connect to the raspberrypi displays, use the provided router and connect to the PiRouter network with a computer. Turn on one pi display at a time and use the following command in a terminal to ssh to it:
-```
-ssh raspberrypi.local
-```
-The password for both displays is:
-```
-4263
-```
-You will need to disable the app to update the display. Use the following command to disable the app:
-```
-sudo systemctl disable inl-app.service
-```
-After updating, the app can be enabled by using the following command:
-```
-sudo systemctl enable inl-app.service
-```
+This repository contains the software for the Irrigation Modernization Display, a Brigham Young University–Idaho Mechanical Engineering capstone project completed for Idaho National Laboratory (INL).
 
-After disabling the app reboot the raspberry pi:
-```
-sudo reboot
-```
+The exhibit is a portable tabletop model that compares modernized sprinkler (pivot/pump) irrigation with a traditional flood/ditch system. This codebase implements a custom Linux application, built with Flutter, that runs on a Raspberry Pi with a touch screen. The application reads live flow-rate, water-level, and moisture measurements and presents them as current values and historical graphs.
 
-Instead of ssh into the raspberry pi, to update the displays, open a terminal in the build folder on your computer and use the following command to copy the folder to the raspberry pi:
-```
-rsync  -av ./ raspberrypi.local:/home/browens/Desktop
-```
+The [final project presentation](https://youtu.be/TvEDPJKfPd0) is available on YouTube.
 
+## Display
 
+![Irrigation display in operation, comparing sprinkler and flood irrigation](docs/display-operating.jpg)
 
-To generate code run this command:
-```
-flutter pub run build_runner build --delete-conflicting-outputs
-```
+![Complete display with Raspberry Pi touch screens](docs/display-overview.jpg)
 
-This will watch your files and rerun the generator any time anything needs updated
-```
-flutter pub run build_runner watch --delete-conflicting-outputs
-```
+![Capstone project poster for the Irrigation Display Box](docs/project-poster.jpg)
+
+## Software
+
+The Flutter application (`lib/`) is the operator-facing interface. It ingests serial data from an Arduino, buffers samples, and renders time-series charts for flow rate, water level, and moisture. On Linux it uses the hardware serial port; on other platforms it falls back to simulated data for development.
+
+The Arduino firmware (`ArduinoCode/`) samples the soil-moisture, water-level, and flow sensors and streams labeled readings to the Raspberry Pi.
